@@ -12,4 +12,4 @@ UI 표현하기
 https://ko.react.dev/learn/describing-the-ui
 
 상호작용 추가하기
-https://ko.react.dev/learn/adding-interactivity
+https://ko.react.dev/learn/adding-interactivity S
