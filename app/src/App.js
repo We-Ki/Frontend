@@ -65,7 +65,7 @@ const Manage = () => (
   <>
     <Row>
       <Col span={3}>col-3</Col>
-      <Col span={6}>      <SmileOutlined style={{ fontSize: '100'}} /></Col>
+      <Col span={6}>      <SmileOutlined style={{ fontSize: '100', color:'#ff4d4f'}} /></Col>
       <Col span={6}><MehOutlined /></Col>
       <Col span={6}><FrownOutlined /></Col>
       <Col span={3}>col-3</Col>
