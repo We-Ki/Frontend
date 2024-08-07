@@ -2,11 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
 
-function MyButton() {
-  return (
-    <button>I'm a button</button>
-  );
-}
+
 
 function Square({value, onSquareClick}) {
  return (
@@ -109,6 +105,29 @@ const user = {
   imageSize: 90,
 };
 
+const products = [
+  { title: 'Cabbage', isFruit: false, id: 1 },
+  { title: 'Garlic', isFruit: false, id: 2 },
+  { title: 'Apple', isFruit: true, id: 3 },
+];
+
+function ShoppingList() {
+  const listItems = products.map(product =>
+    <li
+      key={product.id}
+      style={{
+        color: product.isFruit ? 'magenta' : 'darkgreen'
+      }}
+    >
+      {product.title}
+    </li>
+  );
+
+  return (
+    <ul>{listItems}</ul>
+  );
+}
+
 function Profile() {
   return (
     <>
@@ -127,7 +146,23 @@ function Profile() {
   
 }
 
+function MyButton({count, onClick}) {
+  return (
+    <button onClick={onClick}>
+      I'm a button. Yall Clicked {count} times!!
+    </button>
+  )
+}
+
 function App() {
+
+  const [count, setCount] = useState(0);
+
+  function handleClick() {
+    alert('You clicked me');
+    setCount(count + 1);
+  }
+  
   return (
     <div className="App">
       <header className="App-header">
@@ -146,13 +181,17 @@ function App() {
       </header>
       <div>
         <h1>Welcome to my app</h1>
+        <ShoppingList/>
         <Profile/>
-        <MyButton />
+        <MyButton count={count} onClick={handleClick}/>
+        <MyButton count={count} onClick={handleClick}/>
         <Game/>
       </div>
     </div>
   );
 }
+
+
 
 function calculateWinner(squares) {
   const lines = [
