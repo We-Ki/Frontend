@@ -16,7 +16,7 @@ https://ko.react.dev/learn/adding-interactivity
 .
 
 ### Ant Design Color Palette
-
+![](2024-08-08-02-16-31.png)
 #### Dust Red
 | Description | Color   | Hex Code |
 |-------------|---------|----------|
@@ -59,7 +59,7 @@ https://ko.react.dev/learn/adding-interactivity
 | orange-8    |         | #ad4e00  |
 | orange-9    |         | #873800  |
 | orange-10   |         | #612500  |
-
+![](2024-08-08-02-16-59.png)
 #### Calendula Gold
 | Description | Color   | Hex Code |
 |-------------|---------|----------|
@@ -101,7 +101,7 @@ https://ko.react.dev/learn/adding-interactivity
 | lime-8      |         | #5b8c00  |
 | lime-9      |         | #3f6600  |
 | lime-10     |         | #254000  |
-
+![](2024-08-08-02-17-23.png)
 #### Polar Green
 | Description | Color   | Hex Code |
 |-------------|---------|----------|
@@ -143,7 +143,7 @@ https://ko.react.dev/learn/adding-interactivity
 | blue-8      |         | #003eb3  |
 | blue-9      |         | #002c8c  |
 | blue-10     |         | #001d66  |
-
+![](2024-08-08-02-17-38.png)
 #### Geek Blue
 | Description | Color   | Hex Code |
 |-------------|---------|----------|
