@@ -1,8 +1,10 @@
 import React from 'react';
 import { Layout, Segmented, Card, Col, Row  } from 'antd';
-import { HomeOutlined, SunOutlined, MenuOutlined, LineChartOutlined, UserOutlined, SmileOutlined, MehOutlined, FrownOutlined } from '@ant-design/icons';
+import { HomeOutlined, SunOutlined, MenuOutlined, 
+  LineChartOutlined, UserOutlined, SmileOutlined, 
+  MehOutlined, FrownOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
-
+import { RiWaterFlashLine } from "react-icons/ri";
 
 const { Meta } = Card;
 const { Content, Footer } = Layout;
@@ -63,26 +65,51 @@ const Home = () => (
 );
 const Manage = () => (
   <>
-    <Row>
+    <Row style={{ marginBottom: '10px',textAlign: 'center' }}>
+      <Col span={4}><ArrowLeftOutlined />1번 구역</Col>
+      <Col span={4}>col-4</Col>
+      <Col span={4}>col-4</Col>
+      <Col span={4}>col-4</Col>
+      <Col span={4}>col-4</Col>
+      <Col span={4}>col-4</Col>
+    </Row>
+    <Row style={{ marginBottom: '30px',textAlign: 'center' }}>
+    <Col span={4}><h3>재배 환경</h3></Col>
+      <Col span={4}>col-4</Col>
+      <Col span={4}>col-4</Col>
+      <Col span={4}>col-4</Col>
+      <Col span={4}>col-4</Col>
+      <Col span={4}>col-4</Col>
+    </Row>
+    <Row style={{ marginBottom: '30px', display: 'flex', justifyContent: 'center', alignItems: 'center',textAlign: 'center' }} >
       <Col span={3}>col-3</Col>
-      <Col span={6}>      <SmileOutlined style={{ fontSize: '100', color:'#ff4d4f'}} /></Col>
-      <Col span={6}><MehOutlined /></Col>
-      <Col span={6}><FrownOutlined /></Col>
+      <Col span={6}><SmileOutlined style={{ fontSize: '90px', color:'#1677ff'}} /></Col>
+      <Col span={6}><MehOutlined style={{ fontSize: '90px', color:'#8c8c8c'}}  /></Col>
+      <Col span={6}><FrownOutlined style={{ fontSize: '90px', color:'#ff4d4f'}} /></Col>
       <Col span={3}>col-3</Col>
     </Row>
-    <Row>
+    <Row style={{marginBottom: '10px',textAlign: 'center'}}>
       <Col span={6}>col-6</Col>
-      <Col span={12}>col-12</Col>
-      <Col span={6}>col-6</Col>
-    </Row>
-    <Row>
-      <Col span={6}>col-6</Col>
-      <Col span={12}>col-12</Col>
+      <Col span={12} style={{ textAlign: 'center' }}>
+        <h1>물이 부족해요.</h1>
+        <h3 style={{ color:'#bfbfbf'}}>물주기 버튼을 눌러서 물을 주세요.</h3>
+      </Col>
       <Col span={6}>col-6</Col>
     </Row>
-    <Row>
-      <Col span={12}>col-12</Col>
-      <Col span={12}>col-12</Col>
+    <Row style={{marginBottom: '30px',textAlign: 'center'}}>
+      <Col span={6}>col-6</Col>
+      <Col span={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <RiWaterFlashLine style={{ fontSize: '90px', color: '#1677ff' }} />
+      </Col>
+      <Col span={6}>col-6</Col>
+    </Row>
+    <Row gutter={16}>
+      <Col span={12}><Card title="Card title" bordered={false}>
+        Card content
+      </Card></Col>
+      <Col span={12}><Card title="Card title" bordered={false}>
+        Card content
+      </Card></Col>
     </Row>
   </>
 );
