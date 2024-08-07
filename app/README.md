@@ -13,8 +13,7 @@ https://ko.react.dev/learn/describing-the-ui
 
 상호작용 추가하기
 https://ko.react.dev/learn/adding-interactivity 
-
-물론입니다! 아래는 한자를 모두 영어로 바꾸어 정리한 표입니다.
+.
 
 ### Ant Design Color Palette
 
