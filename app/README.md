@@ -20,16 +20,17 @@ https://ko.react.dev/learn/adding-interactivity
 #### Dust Red
 | Description | Color   | Hex Code |
 |-------------|---------|----------|
-| red-1       | vibrant | #fff1f0  |
-| red-2       |         | #ffccc7  |
-| red-3       |         | #ffa39e  |
-| red-4       |         | #ff7875  |
-| red-5       |         | #ff4d4f  |
-| red-6       |         | #f5222d  |
-| red-7       |         | #cf1322  |
-| red-8       |         | #a8071a  |
-| red-9       |         | #820014  |
-| red-10      |         | #5c0011  |
+| vibrant     | <div style="background-color:#fff1f0;width:100%;height:20px;"></div> | #fff1f0  |
+|             | <div style="background-color:#ffccc7;width:100%;height:20px;"></div> | #ffccc7  |
+|             | <div style="background-color:#ffa39e;width:100%;height:20px;"></div> | #ffa39e  |
+|             | <div style="background-color:#ff7875;width:100%;height:20px;"></div> | #ff7875  |
+|             | <div style="background-color:#ff4d4f;width:100%;height:20px;"></div> | #ff4d4f  |
+|             | <div style="background-color:#f5222d;width:100%;height:20px;"></div> | #f5222d  |
+|             | <div style="background-color:#cf1322;width:100%;height:20px;"></div> | #cf1322  |
+|             | <div style="background-color:#a8071a;width:100%;height:20px;"></div> | #a8071a  |
+|             | <div style="background-color:#820014;width:100%;height:20px;"></div> | #820014  |
+|             | <div style="background-color:#5c0011;width:100%;height:20px;"></div> | #5c0011  |
+
 
 #### Volcano
 | Description | Color   | Hex Code |
