@@ -1,16 +1,107 @@
 import React from 'react';
-import { Layout } from 'antd';
-import { HomeOutlined, SunOutlined, MenuOutlined, LineChartOutlined, UserOutlined } from '@ant-design/icons';
-import { Segmented } from 'antd';
+import { Layout, Segmented, Card, Col, Row  } from 'antd';
+import { HomeOutlined, SunOutlined, MenuOutlined, LineChartOutlined, UserOutlined, SmileOutlined, MehOutlined, FrownOutlined } from '@ant-design/icons';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 
+
+const { Meta } = Card;
 const { Content, Footer } = Layout;
 
-const Home = () => <div>Home Page</div>;
-const Manage = () => <div>Manage Page</div>;
-const Menu = () => <div>Menu Page</div>;
-const Analytics = () => <div>Analytics Page</div>;
-const MyPage = () => <div>My Page</div>;
+const Home = () => (
+  <>
+    <h1>관리</h1>
+    <h3>한눈에 관리하는<br/> 나만의 농장</h3>
+    <div style={{ display: 'flex', gap: '16px'  ,marginBottom: '10px' }}>
+      <Card
+        hoverable
+        style={{ width: 220, height:200 }}
+        cover={<img alt="example" src="plant.jpg" />}
+      >
+        <Meta title="1번 구역" description="상추 재배" />
+      </Card>
+      <Card
+        hoverable
+        style={{ width: 220, height:200 }}
+        cover={<img alt="example" src="plant.jpg" />}
+      >
+        <Meta title="2번 구역" description="상추 재배" />
+      </Card>
+    </div>
+    <div style={{ display: 'flex', gap: '16px' ,marginBottom: '10px' }}>
+      <Card
+        hoverable
+        style={{ width: 220, height:200 }}
+        cover={<img alt="example" src="plant.jpg" />}
+      >
+        <Meta title="3번 구역" description="상추 재배" />
+      </Card>
+      <Card
+        hoverable
+        style={{ width: 220, height:200 }}
+        cover={<img alt="example" src="plant.jpg" />}
+      >
+        <Meta title="4번 구역" description="상추 재배" />
+      </Card>
+    </div>
+    <div style={{ display: 'flex', gap: '16px' ,marginBottom: '10px' }}>
+      <Card
+        hoverable
+        style={{ width: 220, height:200 }}
+        cover={<img alt="example" src="plant.jpg" />}
+      >
+        <Meta title="5번 구역" description="상추 재배" />
+      </Card>
+      <Card
+        hoverable
+        style={{ width: 220, height:200 }}
+        cover={<img alt="example" src="plant.jpg" />}
+      >
+        <Meta title="6번 구역" description="상추 재배" />
+      </Card>
+    </div>
+  </>
+);
+const Manage = () => (
+  <>
+    <Row>
+      <Col span={3}>col-3</Col>
+      <Col span={6}>      <SmileOutlined style={{ fontSize: '100'}} /></Col>
+      <Col span={6}><MehOutlined /></Col>
+      <Col span={6}><FrownOutlined /></Col>
+      <Col span={3}>col-3</Col>
+    </Row>
+    <Row>
+      <Col span={6}>col-6</Col>
+      <Col span={12}>col-12</Col>
+      <Col span={6}>col-6</Col>
+    </Row>
+    <Row>
+      <Col span={6}>col-6</Col>
+      <Col span={12}>col-12</Col>
+      <Col span={6}>col-6</Col>
+    </Row>
+    <Row>
+      <Col span={12}>col-12</Col>
+      <Col span={12}>col-12</Col>
+    </Row>
+  </>
+);
+const Menu = () => (
+  <>
+    <div>Menu Page</div>
+  </>
+
+);
+const Analytics = () => (
+  <>
+    <div>Analytics Page</div>
+  </>
+);
+const MyPage = () => (
+  <>
+    <div>My Page</div>
+  </>
+);
 
 const Navigation = () => {
   const navigate = useNavigate();
@@ -25,7 +116,7 @@ const Navigation = () => {
         {
           label: (
             <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', padding: 4 }}>
-              <HomeOutlined style={{ fontSize: '24px', marginBottom: '4px' }} />
+              <HomeOutlined style={{ fontSize: '18px', marginBottom: '-3px', marginTop: '8px' }} />
               <div>홈</div>
             </div>
           ),
@@ -34,7 +125,7 @@ const Navigation = () => {
         {
           label: (
             <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', padding: 4 }}>
-              <SunOutlined style={{ fontSize: '24px', marginBottom: '4px' }} />
+              <SunOutlined style={{ fontSize: '18px', marginBottom: '-3px', marginTop: '8px' }} />
               <div>관리</div>
             </div>
           ),
@@ -43,7 +134,7 @@ const Navigation = () => {
         {
           label: (
             <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', padding: 4 }}>
-              <MenuOutlined style={{ fontSize: '24px', marginBottom: '4px' }} />
+              <MenuOutlined style={{ fontSize: '18px', marginBottom: '-3px', marginTop: '8px' }} />
               <div>메뉴</div>
             </div>
           ),
@@ -52,7 +143,7 @@ const Navigation = () => {
         {
           label: (
             <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', padding: 4 }}>
-              <LineChartOutlined style={{ fontSize: '24px', marginBottom: '4px' }} />
+              <LineChartOutlined style={{ fontSize: '18px', marginBottom: '-3px', marginTop: '8px' }} />
               <div>분석</div>
             </div>
           ),
@@ -61,7 +152,7 @@ const Navigation = () => {
         {
           label: (
             <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', padding: 4 }}>
-              <UserOutlined style={{ fontSize: '24px', marginBottom: '4px' }} />
+              <UserOutlined style={{ fontSize: '18px', marginBottom: '-3px', marginTop: '8px' }} />
               <div>마이</div>
             </div>
           ),
