@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Segmented, Card, Col, Row  } from 'antd';
+import { Layout, Segmented, Card, Col, Row, Table  } from 'antd';
 import { HomeOutlined, SunOutlined, MenuOutlined, 
   LineChartOutlined, UserOutlined, SmileOutlined, 
   MehOutlined, FrownOutlined, ArrowLeftOutlined } from '@ant-design/icons';
@@ -8,6 +8,49 @@ import { RiWaterFlashLine } from "react-icons/ri";
 
 const { Meta } = Card;
 const { Content, Footer } = Layout;
+
+const CurrentStatus = [
+  { key: '1', column1: '대기 온도', column2: '20°C' },
+  { key: '2', column1: '토양 온도', column2: '15°C' },
+  { key: '3', column1: '대기 습도', column2: '50%' },
+  { key: '4', column1: '토양 습도', column2: '10%' },
+  { key: '5', column1: '조명', column2: '3단계' },
+  { key: '6', column1: '조명 지속 시간', column2: '16시간' },
+];
+
+const StandardEnvironment = [
+  { key: '1', column1: '대기 온도', column2: '20°C' },
+  { key: '2', column1: '토양 온도', column2: '15°C' },
+  { key: '3', column1: '대기 습도', column2: '50%' },
+  { key: '4', column1: '토양 습도', column2: '30%' },
+  { key: '5', column1: '조명', column2: '3단계' },
+  { key: '6', column1: '조명 지속 시간', column2: '16시간' },
+];
+
+const columns = [
+  {
+    title: '변수',
+    dataIndex: 'column1',
+    key: 'column1',
+  },
+  {
+    title: '값',
+    dataIndex: 'column2',
+    key: 'column2',
+  },
+];
+
+const CurrentStatusCard = () => (
+  <Card title="현재 상태" bordered={false}>
+    <Table dataSource={CurrentStatus} columns={columns} pagination={false} />
+  </Card>
+);
+
+const StandardEnvironmentCard = () => (
+  <Card title="표준 환경" bordered={false}>
+    <Table dataSource={CurrentStatus} columns={columns} pagination={false} />
+  </Card>
+);
 
 const Home = () => (
   <>
@@ -104,12 +147,11 @@ const Manage = () => (
       <Col span={6}>col-6</Col>
     </Row>
     <Row gutter={16}>
-      <Col span={12}><Card title="Card title" bordered={false}>
-        Card content
-      </Card></Col>
-      <Col span={12}><Card title="Card title" bordered={false}>
-        Card content
-      </Card></Col>
+      <Col span={12}>
+        <CurrentStatusCard title="현재 상태" bordered={false}/></Col>
+      <Col span={12}>
+        <StandardEnvironmentCard title="표준 환경" bordered={false}/>
+      </Col>
     </Row>
   </>
 );
