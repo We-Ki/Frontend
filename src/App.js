@@ -8,27 +8,64 @@ import Analytics from "./pages/Analytics";
 import Manage from "./pages/Manage";
 import Menu from "./pages/Menu";
 import "./App.css";
+import {
+  HomeOutlined as HomeIcon,
+  SunOutlined as ManageIcon,
+  MenuOutlined as MenuIcon,
+  LineChartOutlined as AnalyticsIcon,
+  UserOutlined as MyPageIcon,
+} from "@ant-design/icons";
 
 const { Content, Footer } = Layout;
 
-const Demo = () => (
-  <Router>
-    <Layout style={{ minHeight: "100vh" }}>
-      <Content style={{ padding: "50px" }}>
-        <Routes>
-          <Route path="/home" element={<Home />} />
-          <Route path="/manage" element={<Manage />} />
-          <Route path="/menu" element={<Menu />} />
-          <Route path="/analytics" element={<Analytics />} />
-          <Route path="/mypage" element={<MyPage />} />
-          <Route path="*" element={<Home />} />
-        </Routes>
-      </Content>
-      <Footer style={{ textAlign: "center" }}>
-        <Navigation />
-      </Footer>
-    </Layout>
-  </Router>
-);
+const menus = [
+  {
+    name: "홈",
+    value: "home",
+    icon: HomeIcon,
+  },
+  {
+    name: "관리",
+    value: "manage",
+    icon: ManageIcon,
+  },
+  {
+    name: "전체",
+    value: "menu",
+    icon: MenuIcon,
+  },
+  {
+    name: "분석",
+    value: "analytics",
+    icon: AnalyticsIcon,
+  },
+  {
+    name: "마이",
+    value: "mypage",
+    icon: MyPageIcon,
+  },
+];
+
+const Demo = () => {
+  return (
+    <Router>
+      <Layout style={{ minHeight: "100vh" }}>
+        <Content style={{ padding: "50px" }}>
+          <Routes>
+            <Route path="/home" element={<Home />} />
+            <Route path="/manage" element={<Manage />} />
+            <Route path="/menu" element={<Menu />} />
+            <Route path="/analytics" element={<Analytics />} />
+            <Route path="/mypage" element={<MyPage />} />
+            <Route path="*" element={<Home />} />
+          </Routes>
+        </Content>
+        <Footer style={{ textAlign: "center", position: "sticky", bottom: 0 }}>
+          <Navigation menus={menus} />
+        </Footer>
+      </Layout>
+    </Router>
+  );
+};
 
 export default Demo;

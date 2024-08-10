@@ -1,5 +1,12 @@
 .FarmList {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   gap: 10px;
+  overflow: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.FarmList::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
 }

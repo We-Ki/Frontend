@@ -6,6 +6,7 @@ import {
   DollarOutlined,
 } from "@ant-design/icons";
 import { gray } from "@ant-design/colors";
+import ContentHeader from "../components/ContentHeader";
 
 const point = [
   "물주기 - 1번 구역 물주기. 토양 습도 24%에서 27%로 상승!",
@@ -19,21 +20,7 @@ const mydata = ["기본 정보", "주소"];
 
 const MyPage = () => (
   <>
-    <Row style={{ textAlign: "left" }}>
-      <Col span={4}>
-        <h1>마이</h1>
-      </Col>
-      <Col span={20}></Col>
-    </Row>
-    <Row style={{ marginBottom: "10px", textAlign: "left" }}>
-      <Col span={8}>
-        <h3>
-          {" "}
-          포인트를 모으고 <br /> 농작물을 키우자!{" "}
-        </h3>
-      </Col>
-      <Col span={16}></Col>
-    </Row>
+    <ContentHeader title={"마이"} sub={"포인트를 모으고\n농작물을 키우자!"} />
     <Row style={{ marginBottom: "20px", textAlign: "left" }}>
       <Col span={4}>
         <Avatar size={64} icon={<UserOutlined />} />

@@ -1,13 +1,6 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Segmented } from "antd";
-import {
-  HomeOutlined as HomeIcon,
-  SunOutlined as ManageIcon,
-  MenuOutlined as MenuIcon,
-  LineChartOutlined as AnalyticsIcon,
-  UserOutlined as MyPageIcon,
-} from "@ant-design/icons";
 
 const labelStyle = {
   display: "flex",
@@ -22,35 +15,7 @@ const iconStyle = {
   marginTop: "8px",
 };
 
-const menus = [
-  {
-    name: "홈",
-    value: "home",
-    icon: HomeIcon,
-  },
-  {
-    name: "관리",
-    value: "manage",
-    icon: ManageIcon,
-  },
-  {
-    name: "전체",
-    value: "menu",
-    icon: MenuIcon,
-  },
-  {
-    name: "분석",
-    value: "analytics",
-    icon: AnalyticsIcon,
-  },
-  {
-    name: "마이",
-    value: "mypage",
-    icon: MyPageIcon,
-  },
-];
-
-const Navigation = () => {
+const Navigation = ({ menus, current }) => {
   const navigate = useNavigate();
 
   const handleSegmentedChange = (value) => {
@@ -70,7 +35,14 @@ const Navigation = () => {
     };
   });
 
-  return <Segmented options={options} block onChange={handleSegmentedChange} />;
+  return (
+    <Segmented
+      options={options}
+      block
+      onChange={handleSegmentedChange}
+      value={useLocation().pathname.split("/")[1]}
+    />
+  );
 };
 
 export default Navigation;

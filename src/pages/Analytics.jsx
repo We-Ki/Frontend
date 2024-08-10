@@ -1,26 +1,17 @@
 import React from "react";
-import { Row, Col, Divider, List } from "antd";
+import { Divider, List } from "antd";
 import { VideoCameraOutlined, LineChartOutlined } from "@ant-design/icons";
 import { gray } from "@ant-design/colors";
+import ContentHeader from "../components/ContentHeader";
 
 const data = ["1번 구역", "2번 구역", "3번 구역", "4번 구역", "5번 구역"];
 
 const Analytics = () => (
   <>
-    <Row style={{ textAlign: "left" }}>
-      <Col span={4}>
-        <h1>분석</h1>
-      </Col>
-      <Col span={20}></Col>
-    </Row>
-    <Row style={{ marginBottom: "-10px", textAlign: "left" }}>
-      <Col span={8}>
-        <h3>
-          데이터 분석을 통한 <br /> 똑똑한 농장 관리
-        </h3>
-      </Col>
-      <Col span={16}></Col>
-    </Row>
+    <ContentHeader
+      title={"분석"}
+      sub={"데이터 분석을 통한\n똑똑한 농장 관리"}
+    />
     <Divider
       orientation="left"
       style={{ marginBottom: "0px", textAlign: "left", color: gray[7] }}

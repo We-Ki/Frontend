@@ -7,7 +7,7 @@ const FarmItem = ({ image, title, description }) => {
   return (
     <Card
       hoverable
-      style={{ width: 220 }}
+      style={{ width: "17vw" }}
       cover={<img alt="example" src={image} />}
     >
       <Meta title={title} description={description} />
