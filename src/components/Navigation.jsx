@@ -2,12 +2,53 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Segmented } from "antd";
 import {
-  HomeOutlined,
-  SunOutlined,
-  UserOutlined,
-  LineChartOutlined,
-  MenuOutlined,
+  HomeOutlined as HomeIcon,
+  SunOutlined as ManageIcon,
+  MenuOutlined as MenuIcon,
+  LineChartOutlined as AnalyticsIcon,
+  UserOutlined as MyPageIcon,
 } from "@ant-design/icons";
+
+const labelStyle = {
+  display: "flex",
+  alignItems: "center",
+  flexDirection: "column",
+  padding: 4,
+};
+
+const iconStyle = {
+  fontSize: "18px",
+  marginBottom: "-3px",
+  marginTop: "8px",
+};
+
+const menus = [
+  {
+    name: "홈",
+    value: "home",
+    icon: HomeIcon,
+  },
+  {
+    name: "관리",
+    value: "manage",
+    icon: ManageIcon,
+  },
+  {
+    name: "전체",
+    value: "menu",
+    icon: MenuIcon,
+  },
+  {
+    name: "분석",
+    value: "analytics",
+    icon: AnalyticsIcon,
+  },
+  {
+    name: "마이",
+    value: "mypage",
+    icon: MyPageIcon,
+  },
+];
 
 const Navigation = () => {
   const navigate = useNavigate();
@@ -16,124 +57,20 @@ const Navigation = () => {
     navigate(`/${value}`);
   };
 
-  return (
-    <Segmented
-      options={[
-        {
-          label: (
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                flexDirection: "column",
-                padding: 4,
-              }}
-            >
-              <HomeOutlined
-                style={{
-                  fontSize: "18px",
-                  marginBottom: "-3px",
-                  marginTop: "8px",
-                }}
-              />
-              <div>홈</div>
-            </div>
-          ),
-          value: "home",
-        },
-        {
-          label: (
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                flexDirection: "column",
-                padding: 4,
-              }}
-            >
-              <SunOutlined
-                style={{
-                  fontSize: "18px",
-                  marginBottom: "-3px",
-                  marginTop: "8px",
-                }}
-              />
-              <div>관리</div>
-            </div>
-          ),
-          value: "manage",
-        },
-        {
-          label: (
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                flexDirection: "column",
-                padding: 4,
-              }}
-            >
-              <MenuOutlined
-                style={{
-                  fontSize: "18px",
-                  marginBottom: "-3px",
-                  marginTop: "8px",
-                }}
-              />
-              <div>전체</div>
-            </div>
-          ),
-          value: "menu",
-        },
-        {
-          label: (
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                flexDirection: "column",
-                padding: 4,
-              }}
-            >
-              <LineChartOutlined
-                style={{
-                  fontSize: "18px",
-                  marginBottom: "-3px",
-                  marginTop: "8px",
-                }}
-              />
-              <div>분석</div>
-            </div>
-          ),
-          value: "analytics",
-        },
-        {
-          label: (
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                flexDirection: "column",
-                padding: 4,
-              }}
-            >
-              <UserOutlined
-                style={{
-                  fontSize: "18px",
-                  marginBottom: "-3px",
-                  marginTop: "8px",
-                }}
-              />
-              <div>마이</div>
-            </div>
-          ),
-          value: "mypage",
-        },
-      ]}
-      block
-      onChange={handleSegmentedChange}
-    />
-  );
+  const options = menus.map((menu) => {
+    const Icon = menu.icon;
+    return {
+      label: (
+        <div style={labelStyle}>
+          <Icon style={iconStyle} />
+          <div>{menu.name}</div>
+        </div>
+      ),
+      value: menu.value,
+    };
+  });
+
+  return <Segmented options={options} block onChange={handleSegmentedChange} />;
 };
 
 export default Navigation;
