@@ -1,17 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import FarmItem from "./FarmItem";
 import "./FarmList.css";
 
-const farms = [...Array(10)];
+// const farms = [...Array(10)];
 
 const FarmList = () => {
+  const [farms, setFarms] = useState([]);
+
+  useEffect(() => {
+    const fetchFarms = () => {
+      fetch(`http://${process.env.REACT_APP_API_URL}/farms/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `bearer ${localStorage.getItem("token")}`,
+        },
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          setFarms(data.message);
+        })
+        .catch((err) => console.error("Fetching error:", err));
+    };
+
+    fetchFarms();
+  }, []);
+
   return (
     <div className="FarmList">
       {farms.map((data, index) => {
         return (
           <FarmItem
-            key={`${index}`}
-            title={`${index + 1}번째 농장`}
+            key={`${data._id}`}
+            title={`${data.name}`}
             description={"채소농장"}
           />
         );
