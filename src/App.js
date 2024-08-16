@@ -7,6 +7,7 @@ import MyPage from "./pages/MyPage";
 import Analytics from "./pages/Analytics";
 import Manage from "./pages/Manage";
 import Menu from "./pages/Menu";
+import SignIn from "./pages/SignIn";
 import "./App.css";
 import {
   HomeOutlined as HomeIcon,
@@ -52,6 +53,7 @@ const Demo = () => {
       <Layout style={{ minHeight: "100vh" }}>
         <Content style={{ padding: "50px" }}>
           <Routes>
+            <Route path="/signin" element={<SignIn />} />
             <Route path="/home" element={<Home />} />
             <Route path="/manage" element={<Manage />} />
             <Route path="/menu" element={<Menu />} />
