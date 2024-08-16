@@ -3,7 +3,7 @@ import { Card } from "antd";
 
 const { Meta } = Card;
 
-const FarmItem = ({ image, title, description }) => {
+const FarmItem = ({ image = "plant.jpg", title, description }) => {
   return (
     <Card
       hoverable
@@ -13,10 +13,6 @@ const FarmItem = ({ image, title, description }) => {
       <Meta title={title} description={description} />
     </Card>
   );
-};
-
-FarmItem.defaultProps = {
-  image: "plant.jpg",
 };
 
 export default FarmItem;
