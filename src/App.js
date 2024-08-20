@@ -16,6 +16,7 @@ import {
   LineChartOutlined as AnalyticsIcon,
   UserOutlined as MyPageIcon,
 } from "@ant-design/icons";
+import NotFound from "./pages/NotFound";
 
 const { Content, Footer } = Layout;
 
@@ -53,13 +54,13 @@ const Demo = () => {
       <Layout style={{ minHeight: "100vh" }}>
         <Content style={{ padding: "50px" }}>
           <Routes>
+            <Route exact path="/" element={<Home />} />
             <Route path="/signin" element={<SignIn />} />
-            <Route path="/home" element={<Home />} />
             <Route path="/manage" element={<Manage />} />
             <Route path="/menu" element={<Menu />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/mypage" element={<MyPage />} />
-            <Route path="*" element={<Home />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Content>
         <Footer style={{ textAlign: "center", position: "sticky", bottom: 0 }}>
