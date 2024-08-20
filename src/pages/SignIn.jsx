@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ContentHeader from "../components/ContentHeader";
 import { Button, Form, Input } from "antd";
@@ -30,6 +30,12 @@ const Login = () => {
         }
       });
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/home");
+    }
+  });
 
   return (
     <>
