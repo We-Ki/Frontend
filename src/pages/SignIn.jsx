@@ -1,13 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import ContentHeader from "../components/ContentHeader";
 import { Button, Form, Input } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-
+import { IsLoginContext } from "../contexts/IsLoginContext";
 const Login = () => {
   const [form] = Form.useForm();
 
   const navigate = useNavigate();
+
+  const { setIsLogin } = useContext(IsLoginContext);
 
   const handleLogin = async (values) => {
     await new Promise((r) => setTimeout(r, 1000));
@@ -27,6 +29,7 @@ const Login = () => {
           localStorage.setItem("token", body.message.token);
           console.log("login Success");
           navigate("/");
+          setIsLogin(true);
         }
       });
   };

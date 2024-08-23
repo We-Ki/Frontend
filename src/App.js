@@ -17,6 +17,8 @@ import {
   UserOutlined as MyPageIcon,
 } from "@ant-design/icons";
 import NotFound from "./pages/NotFound";
+import { IsLoginProvider, useIsLoginState } from "./contexts/IsLoginContext";
+import PrivateRoute from "./routes/PrivateRoute";
 
 const { Content, Footer } = Layout;
 
@@ -49,18 +51,66 @@ const menus = [
 ];
 
 const Demo = () => {
+  const isLogin = useIsLoginState();
   return (
     <Router>
       <Layout style={{ minHeight: "100vh" }}>
         <Content style={{ padding: "50px" }}>
+          <IsLoginProvider>
+            <Routes>
+              <Route
+                exact
+                path="/"
+                element={
+                  <PrivateRoute authenticated={isLogin} component={<Home />} />
+                }
+              />
+              <Route
+                path="/manage"
+                element={
+                  <PrivateRoute
+                    authenticated={isLogin}
+                    component={<Manage />}
+                  />
+                }
+              />
+              <Route
+                path="/menu"
+                element={
+                  <PrivateRoute authenticated={isLogin} component={<Menu />} />
+                }
+              />
+              <Route
+                path="/analytics"
+                element={
+                  <PrivateRoute
+                    authenticated={isLogin}
+                    component={<Analytics />}
+                  />
+                }
+              />
+              <Route
+                path="/mypage"
+                element={
+                  <PrivateRoute
+                    authenticated={isLogin}
+                    component={<MyPage />}
+                  />
+                }
+              />
+              <Route
+                path="*"
+                element={
+                  <PrivateRoute
+                    authenticated={isLogin}
+                    component={<NotFound />}
+                  />
+                }
+              />
+            </Routes>
+          </IsLoginProvider>
           <Routes>
-            <Route exact path="/" element={<Home />} />
             <Route path="/signin" element={<SignIn />} />
-            <Route path="/manage" element={<Manage />} />
-            <Route path="/menu" element={<Menu />} />
-            <Route path="/analytics" element={<Analytics />} />
-            <Route path="/mypage" element={<MyPage />} />
-            <Route path="*" element={<NotFound />} />
           </Routes>
         </Content>
         <Footer style={{ textAlign: "center", position: "sticky", bottom: 0 }}>
