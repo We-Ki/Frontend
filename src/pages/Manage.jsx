@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Carousel, Card, Table } from "antd";
+import { Row, Col, Carousel, Card, Table, Button } from "antd";
 import { gray, blue, red } from "@ant-design/colors";
 import {
   ArrowLeftOutlined,
@@ -121,7 +121,9 @@ const Manage = () => (
           alignItems: "center",
         }}
       >
-        <RiWaterFlashLine style={{ fontSize: "90px", color: blue.primary }} />
+        <Button shape="circle" className="custom-large-button" icon={
+        <RiWaterFlashLine style={{ fontSize: "60px", color: blue.primary }} />
+        }></Button>
       </Col>
       <Col span={6}></Col>
     </Row>
