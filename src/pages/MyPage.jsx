@@ -8,7 +8,6 @@ import {
 import { gray } from "@ant-design/colors";
 import ContentHeader from "../components/ContentHeader";
 import { IsLoginContext } from "../contexts/IsLoginContext";
-import { useNavigate } from "react-router-dom";
 
 const point = [
   "물주기 - 1번 구역 물주기. 토양 습도 24%에서 27%로 상승!",
@@ -22,8 +21,6 @@ const mydata = ["기본 정보", "주소"];
 
 const MyPage = () => {
   const [myInfo, setMyInfo] = useState([]);
-
-  const navigate = useNavigate();
 
   const { setIsLogin } = useContext(IsLoginContext);
 
@@ -74,7 +71,6 @@ const MyPage = () => {
           onClick={() => {
             localStorage.removeItem("token");
             setIsLogin(false);
-            window.location.reload();
           }}
         >
           로그아웃

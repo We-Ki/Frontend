@@ -28,7 +28,6 @@ const Login = () => {
         if (body.success) {
           localStorage.setItem("token", body.message.token);
           console.log("login Success");
-          navigate("/");
           setIsLogin(true);
         }
       });

@@ -1,6 +1,6 @@
 import React from "react";
 import { Layout } from "antd";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import Home from "./pages/Home";
 import MyPage from "./pages/MyPage";
@@ -12,7 +12,6 @@ import SignUp from "./pages/SignUp";
 import "./App.css";
 import {
   HomeOutlined as HomeIcon,
-  SunOutlined as ManageIcon,
   MenuOutlined as MenuIcon,
   LineChartOutlined as AnalyticsIcon,
   UserOutlined as MyPageIcon,
@@ -28,11 +27,6 @@ const menus = [
     name: "홈",
     value: "home",
     icon: HomeIcon,
-  },
-  {
-    name: "관리",
-    value: "manage",
-    icon: ManageIcon,
   },
   {
     name: "전체",
@@ -52,76 +46,41 @@ const menus = [
 ];
 
 const Demo = () => {
-  const isLogin = useIsLoginState();
   return (
     <Router>
-      <Layout style={{ minHeight: "100vh" }}>
-        <Content style={{ padding: "50px" }}>
+      <Layout style={{ height: "100vh" }}>
+        <Content style={{ padding: "50px", overflow: "auto" }}>
           <IsLoginProvider>
             <Routes>
               <Route
                 exact
                 path="/"
-                element={
-                  <PrivateRoute authenticated={isLogin} component={<Home />} />
-                }
+                element={<PrivateRoute component={<Home />} />}
               />
               <Route
                 path="/manage/:farmId" // 농장의 ID를 URL에 포함
-                element={
-                  <PrivateRoute
-                    authenticated={isLogin}
-                    component={<Manage />}
-                  />
-                }
+                element={<PrivateRoute component={<Manage />} />}
               />
               <Route
                 path="/menu"
-                element={
-                  <PrivateRoute authenticated={isLogin} component={<Menu />} />
-                }
+                element={<PrivateRoute component={<Menu />} />}
               />
               <Route
                 path="/analytics"
-                element={
-                  <PrivateRoute
-                    authenticated={isLogin}
-                    component={<Analytics />}
-                  />
-                }
+                element={<PrivateRoute component={<Analytics />} />}
               />
               <Route
                 path="/mypage"
-                element={
-                  <PrivateRoute
-                    authenticated={isLogin}
-                    component={<MyPage />}
-                  />
-                }
+                element={<PrivateRoute component={<MyPage />} />}
               />
-              <Route
-                path="/signup"
-                element={
-                  <PrivateRoute
-                    authenticated={isLogin}
-                    component={<SignUp />}
-                  />
-                }
-              />
+              <Route path="/signup" element={<SignUp />} />
               <Route
                 path="*"
-                element={
-                  <PrivateRoute
-                    authenticated={isLogin}
-                    component={<NotFound />}
-                  />
-                }
+                element={<PrivateRoute component={<NotFound />} />}
               />
+              <Route path="/signin" element={<SignIn />} />
             </Routes>
           </IsLoginProvider>
-          <Routes>
-            <Route path="/signin" element={<SignIn />} />
-          </Routes>
         </Content>
         <Footer style={{ textAlign: "center", position: "sticky", bottom: 0 }}>
           <Navigation menus={menus} />
