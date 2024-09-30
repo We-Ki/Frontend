@@ -41,8 +41,8 @@ const Manage = () => {
         setCurrentStatus(response.data);
       })
       .catch(error => {
-        console.error("Error fetching current status:", error);
-      });
+        console.error("Error fetchingcurrent status:", error);
+      }); 
 
     // 표준 환경 데이터를 서버에서 불러오기
     axios.get("/api/standard-environment") // API 엔드포인트를 실제 서버 경로로 대체

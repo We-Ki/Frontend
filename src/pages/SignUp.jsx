@@ -1,10 +1,6 @@
 import React from "react";
-import { Row, Col, List, Divider, Card, Avatar } from "antd";
-import {
-  UserOutlined,
-  IdcardOutlined,
-  DollarOutlined,
-} from "@ant-design/icons";
+import { Row, Col, List, Divider, Card, Input, Avatar } from "antd";
+import { UserOutlined, IdcardOutlined, DollarOutlined } from "@ant-design/icons";
 import { gray } from "@ant-design/colors";
 import ContentHeader from "../components/ContentHeader";
 
@@ -18,6 +14,22 @@ const point = [
 
 const mydata = ["사용자명", "비밀번호", "비밀번호 확인", "이메일", "이름", "사용자 구분"];
 
+const MyForm = () => (
+    <>
+      {mydata.map((item, index) => (
+        <Input
+          key={index}
+          placeholder={item}
+          style={{
+            fontWeight: "bold",
+            color: gray[7],
+            fontSize: "10px",
+            marginBottom: "6px", // 위아래 간격 설정
+          }}
+        />
+      ))}
+    </>
+  );
 const SignUp = () => (
   <>
     <ContentHeader title={"회원가입"} sub={"계정을 생성하고 \n 농장을 개설하거나 참여하세요"} />
@@ -31,42 +43,29 @@ const SignUp = () => (
       </Col>
       <Col span={16}></Col>
     </Row>
-    <Row gutter={10}>
-      <Col span={12}>
-        <Card style={cardStyle}>
-          <b>회원구분</b>
-        </Card>
-      </Col>
-      <Col span={12}>
-        <Card style={cardStyle}>
-          <b>일반</b>
-        </Card>
-      </Col>
-    </Row>
+
+    {/* 사용자 정보 입력 폼 */}
     <Divider
       orientation="left"
       style={{ marginBottom: "0px", textAlign: "left", color: gray[7] }}
     >
       <h5>
-        <IdcardOutlined style={{ marginRight: "5px" }} />내 정보 입력
+        <IdcardOutlined style={{ marginRight: "5px" }} />
+        내 정보 입력
       </h5>
     </Divider>
-    <List
-      style={{ backgroundColor: "white", border: "none" }}
-      bordered
-      dataSource={mydata}
-      renderItem={(item) => (
-        <List.Item
-          style={{ fontWeight: "bold", color: gray[7], fontSize: "10px" }}
-        >
-          {item}
-        </List.Item>
-      )}
-    />
+
+    {/* 사용자 입력 필드 렌더링 */}
+    <MyForm/>
+
     <div style={{ marginTop: "30px" }}></div>
+    
+    {/* 회원가입 버튼 */}
     <Card style={cardStyle}>
       <b>회원가입</b>
     </Card>
+
+    {/* 포인트 적립 내역 */}
     <Divider
       orientation="left"
       style={{ marginBottom: "0px", textAlign: "left", color: gray[7] }}
@@ -76,6 +75,7 @@ const SignUp = () => (
         포인트 적립 내역
       </h5>
     </Divider>
+
     <List
       style={{ backgroundColor: "white", border: "none" }}
       bordered
@@ -105,7 +105,7 @@ const bigCardStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "left",
-  height: "100px", // 카 드 높이를 원하는 크기로 설정
+  height: "100px", // 카드 높이를 원하는 크기로 설정
   textAlign: "left",
   color: gray[7],
   fontSize: "10px",
