@@ -67,7 +67,7 @@ const Demo = () => {
                 }
               />
               <Route
-                path="/manage"
+                path="/manage/:farmId" // 농장의 ID를 URL에 포함
                 element={
                   <PrivateRoute
                     authenticated={isLogin}
@@ -99,7 +99,7 @@ const Demo = () => {
                   />
                 }
               />
-                            <Route
+              <Route
                 path="/signup"
                 element={
                   <PrivateRoute

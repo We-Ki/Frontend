@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import FarmItem from "./FarmItem";
 import "./FarmList.css";
 
-// const farms = [...Array(10)];
-
 const FarmList = () => {
   const [farms, setFarms] = useState([]);
 
@@ -13,7 +11,7 @@ const FarmList = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
         .then((res) => {
@@ -33,19 +31,18 @@ const FarmList = () => {
 
   return (
     <div className="FarmList">
-      {farms.map((data, index) => {
-        return (
-          <FarmItem
-            key={`${data._id}`}
-            title={`${data.name}`}
-            description={"채소농장"}
-          />
-        );
-      })}
+      {farms.map((data) => (
+        <FarmItem
+          key={data._id}
+          farmId={data._id} // 각 농장의 고유 ID를 farmId로 전달
+          title={data.name}
+          description={"채소농장"}
+        />
+      ))}
       {[...Array(farms.length % 5 === 0 ? 0 : 5 - (farms.length % 5))].map(
-        (_, index) => {
-          return <div key={`${index}`} style={{ width: "19%" }}></div>;
-        }
+        (_, index) => (
+          <div key={index} style={{ width: "19%" }}></div>
+        )
       )}
     </div>
   );
