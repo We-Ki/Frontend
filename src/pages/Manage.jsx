@@ -129,42 +129,7 @@ const Manage = () => (
     </Row>
     <Row gutter={16}>
       <Col span={24}>
-        <>
-          <Carousel arrows infinite={false} style={{ marginBottom: "10px" }}>
-            <div>
-              <h3 style={contentStyle}>조명 1단계</h3>
-            </div>
-            <div>
-              <h3 style={contentStyle}>조명 2단계</h3>
-            </div>
-            <div>
-              <h3 style={contentStyle}>조명 3단계</h3>
-            </div>
-            <div>
-              <h3 style={contentStyle}>조명 4단계</h3>
-            </div>
-          </Carousel>
-          <br />
-          <Carousel
-            arrows
-            dotPosition="left"
-            infinite={false}
-            style={{ marginBottom: "30px" }}
-          >
-            <div>
-              <h3 style={contentStyle}>1</h3>
-            </div>
-            <div>
-              <h3 style={contentStyle}>2</h3>
-            </div>
-            <div>
-              <h3 style={contentStyle}>3</h3>
-            </div>
-            <div>
-              <h3 style={contentStyle}>4</h3>
-            </div>
-          </Carousel>
-        </>
+        <></>
       </Col>
     </Row>
     <Row gutter={16}>
