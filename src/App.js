@@ -8,6 +8,7 @@ import Analytics from "./pages/Analytics";
 import Manage from "./pages/Manage";
 import Menu from "./pages/Menu";
 import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
 import "./App.css";
 import {
   HomeOutlined as HomeIcon,
@@ -95,6 +96,15 @@ const Demo = () => {
                   <PrivateRoute
                     authenticated={isLogin}
                     component={<MyPage />}
+                  />
+                }
+              />
+                            <Route
+                path="/signup"
+                element={
+                  <PrivateRoute
+                    authenticated={isLogin}
+                    component={<SignUp />}
                   />
                 }
               />
