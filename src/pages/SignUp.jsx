@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, List, Divider, Card, Input, Avatar } from "antd";
+import { Row, Col, List, Divider, Card, Input, Avatar, Button } from "antd";
 import { UserOutlined, IdcardOutlined, DollarOutlined } from "@ant-design/icons";
 import { gray } from "@ant-design/colors";
 import ContentHeader from "../components/ContentHeader";
@@ -60,10 +60,12 @@ const SignUp = () => (
 
     <div style={{ marginTop: "30px" }}></div>
     
-    {/* 회원가입 버튼 */}
-    <Card style={cardStyle}>
-      <b>회원가입</b>
-    </Card>
+{/* 회원가입 버튼 */}
+<Button style={{ ...cardStyle, width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+  <b>회원가입</b>
+</Button>
+
+
 
     {/* 포인트 적립 내역 */}
     <Divider

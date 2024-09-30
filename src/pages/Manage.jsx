@@ -3,7 +3,6 @@ import { Row, Col, Card, Table, Button } from "antd";
 import { gray, blue, red } from "@ant-design/colors";
 import { ArrowLeftOutlined, SmileOutlined, MehOutlined, FrownOutlined } from "@ant-design/icons";
 import { RiWaterFlashLine } from "react-icons/ri";
-import axios from "axios"; // axios 임포트
 
 const columns = [
   {
@@ -18,41 +17,80 @@ const columns = [
   },
 ];
 
-const CurrentStatusCard = ({ data }: { data: any[] }) => (
+const CurrentStatusCard = ({ data }) => (
   <Card title="현재 상태" bordered={false}>
     <Table dataSource={data} columns={columns} pagination={false} />
   </Card>
 );
 
-const StandardEnvironmentCard = ({ data }: { data: any[] }) => (
+const StandardEnvironmentCard = ({ data }) => (
   <Card title="표준 환경" bordered={false}>
     <Table dataSource={data} columns={columns} pagination={false} />
   </Card>
 );
 
 const Manage = () => {
-  const [currentStatus, setCurrentStatus] = useState([]);
-  const [standardEnvironment, setStandardEnvironment] = useState([]);
+  // 상태 초기화
+  const [currentStatus, setCurrentStatus] = useState([]); // currentStatus 상태 선언
+  const [standardEnvironment, setStandardEnvironment] = useState([]); // standardEnvironment 상태 선언
+  const [currentAirTemperature, setCurrentAirTemperature] = useState(20); // 대기 온도
+  const [currentSoilTemperature, setCurrentSoilTemperature] = useState(18); // 토양 온도
+  const [currentAirHumidity, setCurrentAirHumidity] = useState(60); // 대기 습도
+  const [light, setLight] = useState("3단계"); // 조명 단계
+  const [lightTime, setLightTime] = useState("16시간"); // 조명 지속 시간
+  const [currentSoilHumidity, setCurrentSoilHumidity] = useState(15); // 초기 토양 습도
 
   useEffect(() => {
-    // 현재 상태 데이터를 서버에서 불러오기
-    axios.get("/api/current-status") // API 엔드포인트를 실제 서버 경로로 대체
-      .then(response => {
-        setCurrentStatus(response.data);
-      })
-      .catch(error => {
-        console.error("Error fetchingcurrent status:", error);
-      }); 
+    // 더미 데이터 설정
+    const dummyCurrentStatus = [
+      { key: '1', column1: '대기 온도', column2: `${currentAirTemperature}°C` },
+      { key: '2', column1: '토양 온도', column2: `${currentSoilTemperature}°C` },
+      { key: '3', column1: '대기 습도', column2: `${currentAirHumidity}%` },
+      { key: '4', column1: '토양 습도', column2: `${currentSoilHumidity}%` }, // 현재 토양 습도 반영
+      { key: '5', column1: '조명', column2: light },
+      { key: '6', column1: '조명 지속 시간', column2: lightTime },
+    ];
 
-    // 표준 환경 데이터를 서버에서 불러오기
-    axios.get("/api/standard-environment") // API 엔드포인트를 실제 서버 경로로 대체
-      .then(response => {
-        setStandardEnvironment(response.data);
-      })
-      .catch(error => {
-        console.error("Error fetching standard environment:", error);
-      });
-  }, []);
+    const dummyStandardEnvironment = [
+      { key: '1', column1: '대기 온도', column2: '20°C' },
+      { key: '2', column1: '토양 온도', column2: '18°C' },
+      { key: '3', column1: '대기 습도', column2: '60%' },
+      { key: '4', column1: '토양 습도', column2: '40%' },
+      { key: '5', column1: '조명', column2: '3단계' },
+      { key: '6', column1: '조명 지속 시간', column2: '16시간' },
+    ];
+
+    // 상태 업데이트
+    setCurrentStatus(dummyCurrentStatus);
+    setStandardEnvironment(dummyStandardEnvironment);
+  }, [currentAirTemperature, currentSoilTemperature, currentAirHumidity, currentSoilHumidity, light, lightTime]);
+
+  // 물주기 버튼을 눌렀을 때 5%씩 토양 습도 증가
+  const handleWatering = () => {
+    setCurrentSoilHumidity(prevHumidity => Math.min(prevHumidity + 5, 100)); // 최대 100%까지 증가
+  };
+
+  // 토양 습도에 따른 상태 결정
+  let iconColorConfig = { smile: gray[2], meh: gray[2], frown: gray[2] };
+  let statusMessage = "";
+  let statusSubMessage = "";
+
+  if (currentSoilHumidity <= 30) {
+    // 물을 줘야 할 시점
+    iconColorConfig.frown = red[4];
+    statusMessage = "물이 부족해요.";
+    statusSubMessage = "물주기 버튼을 눌러서 물을 주세요.";
+  } else if (currentSoilHumidity > 30 && currentSoilHumidity <= 50) {
+    // 보통의 토양 습도
+    iconColorConfig.meh = gray[6];
+    statusMessage = "보통이에요.";
+    statusSubMessage = "토양 수분이 적정 범위에요.";
+  } else if (currentSoilHumidity > 50 && currentSoilHumidity <= 60) {
+    // 완벽한 토양 습도
+    iconColorConfig.smile = blue.primary;
+    statusMessage = "완벽해요.";
+    statusSubMessage = "토양 습도가 최고의 상태에요.";
+  }
 
   return (
     <>
@@ -80,26 +118,26 @@ const Manage = () => {
       >
         <Col span={3}></Col>
         <Col span={6}>
-          <SmileOutlined style={{ fontSize: "90px", color: blue.primary }} />
+          <SmileOutlined style={{ fontSize: "90px", color: iconColorConfig.smile }} />
         </Col>
         <Col span={6}>
-          <MehOutlined style={{ fontSize: "90px", color: gray[6] }} />
+          <MehOutlined style={{ fontSize: "90px", color: iconColorConfig.meh }} />
         </Col>
         <Col span={6}>
-          <FrownOutlined style={{ fontSize: "90px", color: red[4] }} />
+          <FrownOutlined style={{ fontSize: "90px", color: iconColorConfig.frown }} />
         </Col>
         <Col span={3}></Col>
       </Row>
+
       <Row style={{ marginBottom: "10px", textAlign: "center" }}>
         <Col span={6}></Col>
         <Col span={12} style={{ textAlign: "center" }}>
-          <h1>물이 부족해요.</h1>
-          <h3 style={{ color: gray.primary }}>
-            물주기 버튼을 눌러서 물을 주세요.
-          </h3>
+          <h1>{statusMessage}</h1>
+          <h3 style={{ color: gray.primary }}>{statusSubMessage}</h3>
         </Col>
         <Col span={6}></Col>
       </Row>
+
       <Row style={{ marginBottom: "30px", textAlign: "center" }}>
         <Col span={6}></Col>
         <Col
@@ -110,12 +148,20 @@ const Manage = () => {
             alignItems: "center",
           }}
         >
-          <Button shape="circle" className="custom-large-button" icon={
+          <Button shape="circle" className="custom-large-button" onClick={handleWatering} icon={
             <RiWaterFlashLine style={{ fontSize: "60px", color: blue.primary }} />
           }></Button>
         </Col>
         <Col span={6}></Col>
       </Row>
+
+            {/* 현재 토양 습도 표시 */}
+            <Row style={{ marginTop: "30px", textAlign: "center" }}>
+        <Col span={24}>
+          <h3>현재 토양 습도: {currentSoilHumidity}%</h3>
+        </Col>
+      </Row>
+
       <Row gutter={16}>
         <Col span={24}>
           <></>
@@ -129,6 +175,8 @@ const Manage = () => {
           <StandardEnvironmentCard data={standardEnvironment} />
         </Col>
       </Row>
+
+
     </>
   );
 };
