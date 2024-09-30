@@ -3,6 +3,7 @@ import { Row, Col, Card, Table, Button } from "antd";
 import { gray, blue, red } from "@ant-design/colors";
 import { ArrowLeftOutlined, SmileOutlined, MehOutlined, FrownOutlined } from "@ant-design/icons";
 import { RiWaterFlashLine } from "react-icons/ri";
+import { useParams, useNavigate } from "react-router-dom"; // useParams, useNavigate 임포트
 
 const columns = [
   {
@@ -30,9 +31,10 @@ const StandardEnvironmentCard = ({ data }) => (
 );
 
 const Manage = () => {
-  // 상태 초기화
-  const [currentStatus, setCurrentStatus] = useState([]); // currentStatus 상태 선언
-  const [standardEnvironment, setStandardEnvironment] = useState([]); // standardEnvironment 상태 선언
+  const { farmId } = useParams(); // URL에서 farmId 가져오기
+  const navigate = useNavigate(); // 홈으로 돌아가기 위한 navigate
+  const [currentStatus, setCurrentStatus] = useState([]);
+  const [standardEnvironment, setStandardEnvironment] = useState([]);
   const [currentAirTemperature, setCurrentAirTemperature] = useState(20); // 대기 온도
   const [currentSoilTemperature, setCurrentSoilTemperature] = useState(18); // 토양 온도
   const [currentAirHumidity, setCurrentAirHumidity] = useState(60); // 대기 습도
@@ -41,33 +43,53 @@ const Manage = () => {
   const [currentSoilHumidity, setCurrentSoilHumidity] = useState(15); // 초기 토양 습도
 
   useEffect(() => {
-    // 더미 데이터 설정
-    const dummyCurrentStatus = [
-      { key: '1', column1: '대기 온도', column2: `${currentAirTemperature}°C` },
-      { key: '2', column1: '토양 온도', column2: `${currentSoilTemperature}°C` },
-      { key: '3', column1: '대기 습도', column2: `${currentAirHumidity}%` },
-      { key: '4', column1: '토양 습도', column2: `${currentSoilHumidity}%` }, // 현재 토양 습도 반영
-      { key: '5', column1: '조명', column2: light },
-      { key: '6', column1: '조명 지속 시간', column2: lightTime },
-    ];
+    const fetchFarmData = () => {
+      fetch(`http://${process.env.REACT_APP_API_URL}/farm/${farmId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          // 받아온 데이터를 통해 상태 업데이트
+          setCurrentAirTemperature(data.airTemperature);
+          setCurrentSoilTemperature(data.soilTemperature);
+          setCurrentAirHumidity(data.airHumidity);
+          setCurrentSoilHumidity(data.soilHumidity);
+          setLight(data.light);
+          setLightTime(data.lightTime);
 
-    const dummyStandardEnvironment = [
-      { key: '1', column1: '대기 온도', column2: '20°C' },
-      { key: '2', column1: '토양 온도', column2: '18°C' },
-      { key: '3', column1: '대기 습도', column2: '60%' },
-      { key: '4', column1: '토양 습도', column2: '40%' },
-      { key: '5', column1: '조명', column2: '3단계' },
-      { key: '6', column1: '조명 지속 시간', column2: '16시간' },
-    ];
+          const currentStatusData = [
+            { key: '1', column1: '대기 온도', column2: `${data.airTemperature}°C` },
+            { key: '2', column1: '토양 온도', column2: `${data.soilTemperature}°C` },
+            { key: '3', column1: '대기 습도', column2: `${data.airHumidity}%` },
+            { key: '4', column1: '토양 습도', column2: `${data.soilHumidity}%` },
+            { key: '5', column1: '조명', column2: data.light },
+            { key: '6', column1: '조명 지속 시간', column2: data.lightTime },
+          ];
+          setCurrentStatus(currentStatusData);
+        })
+        .catch((err) => console.error("Fetching error:", err));
+    };
 
-    // 상태 업데이트
-    setCurrentStatus(dummyCurrentStatus);
-    setStandardEnvironment(dummyStandardEnvironment);
-  }, [currentAirTemperature, currentSoilTemperature, currentAirHumidity, currentSoilHumidity, light, lightTime]);
+    fetchFarmData(); // 농장 데이터를 불러오기
+  }, [farmId]);
 
   // 물주기 버튼을 눌렀을 때 5%씩 토양 습도 증가
   const handleWatering = () => {
-    setCurrentSoilHumidity(prevHumidity => Math.min(prevHumidity + 5, 100)); // 최대 100%까지 증가
+    setCurrentSoilHumidity((prevHumidity) => Math.min(prevHumidity + 5, 100)); // 최대 100%까지 증가
+  };
+
+  // 홈으로 돌아가는 함수
+  const handleBackToHome = () => {
+    navigate("/"); // 홈으로 이동
   };
 
   // 토양 습도에 따른 상태 결정
@@ -76,17 +98,14 @@ const Manage = () => {
   let statusSubMessage = "";
 
   if (currentSoilHumidity <= 30) {
-    // 물을 줘야 할 시점
     iconColorConfig.frown = red[4];
     statusMessage = "물이 부족해요.";
     statusSubMessage = "물주기 버튼을 눌러서 물을 주세요.";
   } else if (currentSoilHumidity > 30 && currentSoilHumidity <= 50) {
-    // 보통의 토양 습도
     iconColorConfig.meh = gray[6];
     statusMessage = "보통이에요.";
     statusSubMessage = "토양 수분이 적정 범위에요.";
   } else if (currentSoilHumidity > 50 && currentSoilHumidity <= 60) {
-    // 완벽한 토양 습도
     iconColorConfig.smile = blue.primary;
     statusMessage = "완벽해요.";
     statusSubMessage = "토양 습도가 최고의 상태에요.";
@@ -96,8 +115,9 @@ const Manage = () => {
     <>
       <Row style={{ marginBottom: "10px", textAlign: "center" }}>
         <Col span={4}>
-          <ArrowLeftOutlined />
-          <b style={{ color: gray[7] }}>1번 구역</b>
+          <Button icon={<ArrowLeftOutlined />} onClick={handleBackToHome}>
+            <b style={{ color: gray[7] }}>{farmId} 구역</b> {/* farmId 표시 */}
+          </Button>
         </Col>
         <Col span={20}></Col>
       </Row>
@@ -148,25 +168,23 @@ const Manage = () => {
             alignItems: "center",
           }}
         >
-          <Button shape="circle" className="custom-large-button" onClick={handleWatering} icon={
-            <RiWaterFlashLine style={{ fontSize: "60px", color: blue.primary }} />
-          }></Button>
+          <Button
+            shape="circle"
+            className="custom-large-button"
+            onClick={handleWatering}
+            icon={<RiWaterFlashLine style={{ fontSize: "60px", color: blue.primary }} />}
+          ></Button>
         </Col>
         <Col span={6}></Col>
       </Row>
 
-            {/* 현재 토양 습도 표시 */}
-            <Row style={{ marginTop: "30px", textAlign: "center" }}>
+      {/* 현재 토양 습도 표시 */}
+      <Row style={{ marginTop: "30px", textAlign: "center" }}>
         <Col span={24}>
           <h3>현재 토양 습도: {currentSoilHumidity}%</h3>
         </Col>
       </Row>
 
-      <Row gutter={16}>
-        <Col span={24}>
-          <></>
-        </Col>
-      </Row>
       <Row gutter={16}>
         <Col span={12}>
           <CurrentStatusCard data={currentStatus} />
@@ -175,8 +193,6 @@ const Manage = () => {
           <StandardEnvironmentCard data={standardEnvironment} />
         </Col>
       </Row>
-
-
     </>
   );
 };
