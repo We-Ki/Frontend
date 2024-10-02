@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import FarmItem from "./FarmItem";
-import "./FarmList.css";
+import styles from "./FarmList.module.css";
 
 const FarmList = ({ url }) => {
   const [farms, setFarms] = useState([]);
@@ -30,7 +30,7 @@ const FarmList = ({ url }) => {
   });
 
   return (
-    <div className="FarmList">
+    <div className={styles.FarmList}>
       {farms.map((data) => (
         <FarmItem
           key={data._id}

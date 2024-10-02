@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Card, Table, Button } from "antd";
-import { gray, blue, red } from "@ant-design/colors";
+import { Row, Col, Button } from "antd";
+import { gray, blue, red, green } from "@ant-design/colors";
 import { SmileOutlined, MehOutlined, FrownOutlined } from "@ant-design/icons";
 import { RiWaterFlashLine } from "react-icons/ri";
 import { useParams } from "react-router-dom"; // useParams 임포트
 import BackButton from "../components/BackButton";
 import ContentHeader from "../components/ContentHeader";
+import CardWithTable from "../components/CardWithTable";
+
+import styles from "./Manage.module.css";
 
 const columns = [
   {
@@ -19,18 +22,6 @@ const columns = [
     key: "column2",
   },
 ];
-
-const CurrentStatusCard = ({ data }) => (
-  <Card title="현재 상태" bordered={false}>
-    <Table dataSource={data} columns={columns} pagination={false} />
-  </Card>
-);
-
-const StandardEnvironmentCard = ({ data }) => (
-  <Card title="표준 환경" bordered={false}>
-    <Table dataSource={data} columns={columns} pagination={false} />
-  </Card>
-);
 
 const Manage = () => {
   const { farmId } = useParams(); // URL에서 farmId 가져오기
@@ -110,11 +101,11 @@ const Manage = () => {
     statusMessage = "물이 부족해요.";
     statusSubMessage = "물주기 버튼을 눌러서 물을 주세요.";
   } else if (currentSoilHumidity > 30 && currentSoilHumidity <= 50) {
-    iconColorConfig.meh = gray[6];
+    iconColorConfig.meh = blue.primary;
     statusMessage = "보통이에요.";
     statusSubMessage = "토양 수분이 적정 범위에요.";
   } else if (currentSoilHumidity > 50 && currentSoilHumidity <= 60) {
-    iconColorConfig.smile = blue.primary;
+    iconColorConfig.smile = green.primary;
     statusMessage = "완벽해요.";
     statusSubMessage = "토양 습도가 최고의 상태에요.";
   }
@@ -184,7 +175,7 @@ const Manage = () => {
         >
           <Button
             shape="circle"
-            className="custom-large-button"
+            className={styles.CustomLargeButton}
             onClick={handleWatering}
             icon={
               <RiWaterFlashLine
@@ -205,10 +196,18 @@ const Manage = () => {
 
       <Row gutter={16}>
         <Col span={12}>
-          <CurrentStatusCard data={currentStatus} />
+          <CardWithTable
+            title={"현재 상태"}
+            data={currentStatus}
+            columns={columns}
+          />
         </Col>
         <Col span={12}>
-          <StandardEnvironmentCard data={standardEnvironment} />
+          <CardWithTable
+            title={"표준 환경"}
+            data={currentStatus}
+            columns={columns}
+          />
         </Col>
       </Row>
     </>

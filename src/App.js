@@ -8,7 +8,6 @@ import Manage from "./pages/Manage";
 import Farms from "./pages/Farms";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-import "./App.css";
 import NotFound from "./pages/NotFound";
 
 import { IsLoginProvider } from "./contexts/IsLoginContext";
