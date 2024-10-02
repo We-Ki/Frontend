@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Card, Table, Button } from "antd";
 import { gray, blue, red } from "@ant-design/colors";
-import { ArrowLeftOutlined, SmileOutlined, MehOutlined, FrownOutlined } from "@ant-design/icons";
+import { SmileOutlined, MehOutlined, FrownOutlined } from "@ant-design/icons";
 import { RiWaterFlashLine } from "react-icons/ri";
-import { useParams, useNavigate } from "react-router-dom"; // useParams, useNavigate 임포트
+import { useParams } from "react-router-dom"; // useParams, useNavigate 임포트
+import BackButton from "../components/BackButton";
+import ContentHeader from "../components/ContentHeader";
 
 const columns = [
   {
@@ -32,7 +34,6 @@ const StandardEnvironmentCard = ({ data }) => (
 
 const Manage = () => {
   const { farmId } = useParams(); // URL에서 farmId 가져오기
-  const navigate = useNavigate(); // 홈으로 돌아가기 위한 navigate
   const [currentStatus, setCurrentStatus] = useState([]);
   const [standardEnvironment, setStandardEnvironment] = useState([]);
   const [currentAirTemperature, setCurrentAirTemperature] = useState(20); // 대기 온도
@@ -67,12 +68,24 @@ const Manage = () => {
           setLightTime(data.lightTime);
 
           const currentStatusData = [
-            { key: '1', column1: '대기 온도', column2: `${data.airTemperature}°C` },
-            { key: '2', column1: '토양 온도', column2: `${data.soilTemperature}°C` },
-            { key: '3', column1: '대기 습도', column2: `${data.airHumidity}%` },
-            { key: '4', column1: '토양 습도', column2: `${data.soilHumidity}%` },
-            { key: '5', column1: '조명', column2: data.light },
-            { key: '6', column1: '조명 지속 시간', column2: data.lightTime },
+            {
+              key: "1",
+              column1: "대기 온도",
+              column2: `${data.airTemperature}°C`,
+            },
+            {
+              key: "2",
+              column1: "토양 온도",
+              column2: `${data.soilTemperature}°C`,
+            },
+            { key: "3", column1: "대기 습도", column2: `${data.airHumidity}%` },
+            {
+              key: "4",
+              column1: "토양 습도",
+              column2: `${data.soilHumidity}%`,
+            },
+            { key: "5", column1: "조명", column2: data.light },
+            { key: "6", column1: "조명 지속 시간", column2: data.lightTime },
           ];
           setCurrentStatus(currentStatusData);
         })
@@ -85,11 +98,6 @@ const Manage = () => {
   // 물주기 버튼을 눌렀을 때 5%씩 토양 습도 증가
   const handleWatering = () => {
     setCurrentSoilHumidity((prevHumidity) => Math.min(prevHumidity + 5, 100)); // 최대 100%까지 증가
-  };
-
-  // 홈으로 돌아가는 함수
-  const handleBackToHome = () => {
-    navigate("/"); // 홈으로 이동
   };
 
   // 토양 습도에 따른 상태 결정
@@ -113,20 +121,8 @@ const Manage = () => {
 
   return (
     <>
-      <Row style={{ marginBottom: "10px", textAlign: "center" }}>
-        <Col span={4}>
-          <Button icon={<ArrowLeftOutlined />} onClick={handleBackToHome}>
-            <b style={{ color: gray[7] }}>{farmId} 구역</b> {/* farmId 표시 */}
-          </Button>
-        </Col>
-        <Col span={20}></Col>
-      </Row>
-      <Row style={{ marginBottom: "30px", textAlign: "center" }}>
-        <Col span={4}>
-          <h3>재배 환경</h3>
-        </Col>
-        <Col span={20}></Col>
-      </Row>
+      <BackButton label={"내 농장"} url="/" />
+      <ContentHeader title={"재배 환경"} />
       <Row
         style={{
           marginBottom: "30px",
@@ -138,13 +134,19 @@ const Manage = () => {
       >
         <Col span={3}></Col>
         <Col span={6}>
-          <SmileOutlined style={{ fontSize: "90px", color: iconColorConfig.smile }} />
+          <SmileOutlined
+            style={{ fontSize: "90px", color: iconColorConfig.smile }}
+          />
         </Col>
         <Col span={6}>
-          <MehOutlined style={{ fontSize: "90px", color: iconColorConfig.meh }} />
+          <MehOutlined
+            style={{ fontSize: "90px", color: iconColorConfig.meh }}
+          />
         </Col>
         <Col span={6}>
-          <FrownOutlined style={{ fontSize: "90px", color: iconColorConfig.frown }} />
+          <FrownOutlined
+            style={{ fontSize: "90px", color: iconColorConfig.frown }}
+          />
         </Col>
         <Col span={3}></Col>
       </Row>
@@ -172,7 +174,11 @@ const Manage = () => {
             shape="circle"
             className="custom-large-button"
             onClick={handleWatering}
-            icon={<RiWaterFlashLine style={{ fontSize: "60px", color: blue.primary }} />}
+            icon={
+              <RiWaterFlashLine
+                style={{ fontSize: "60px", color: blue.primary }}
+              />
+            }
           ></Button>
         </Col>
         <Col span={6}></Col>

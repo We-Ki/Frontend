@@ -18,8 +18,9 @@ const iconStyle = {
 const Navigation = ({ menus, current }) => {
   const navigate = useNavigate();
 
-  const handleSegmentedChange = (value) => {
-    navigate(`/${value}`);
+  const handleSegmentedChange = (value, farm) => {
+    if (farm) return navigate(`/${value}/${farm}`);
+    return navigate(`/${value}`);
   };
 
   const options = menus.map((menu) => {
@@ -35,11 +36,15 @@ const Navigation = ({ menus, current }) => {
     };
   });
 
+  let farm = useLocation().pathname.split("/")[2];
+
   return (
     <Segmented
       options={options}
       block
-      onChange={handleSegmentedChange}
+      onChange={(value) => {
+        handleSegmentedChange(value, farm);
+      }}
       value={useLocation().pathname.split("/")[1]}
     />
   );

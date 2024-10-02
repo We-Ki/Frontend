@@ -3,11 +3,13 @@ import { Divider, List } from "antd";
 import { VideoCameraOutlined, LineChartOutlined } from "@ant-design/icons";
 import { gray } from "@ant-design/colors";
 import ContentHeader from "../components/ContentHeader";
+import BackButton from "../components/BackButton";
 
 const data = ["1번 구역", "2번 구역", "3번 구역", "4번 구역", "5번 구역"];
 
 const Analytics = () => (
   <>
+    <BackButton label={"내 농장"} url="/" />
     <ContentHeader
       title={"분석"}
       sub={"데이터 분석을 통한\n똑똑한 농장 관리"}

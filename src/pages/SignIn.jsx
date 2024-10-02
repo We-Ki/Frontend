@@ -4,7 +4,7 @@ import ContentHeader from "../components/ContentHeader";
 import { Button, Form, Input } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { IsLoginContext } from "../contexts/IsLoginContext";
-const Login = () => {
+const Signin = () => {
   const [form] = Form.useForm();
 
   const navigate = useNavigate();
@@ -45,14 +45,7 @@ const Login = () => {
         title={"로그인"}
         sub={"한눈에 관리하는 나만의 농장 We-Ki\n로그인 후 이용가능합니다"}
       />
-      <Form
-        form={form}
-        name="login"
-        style={{
-          maxWidth: 600,
-        }}
-        onFinish={handleLogin}
-      >
+      <Form form={form} name="login" size="large" onFinish={handleLogin}>
         <Form.Item
           name="username"
           rules={[
@@ -84,11 +77,20 @@ const Login = () => {
           <Button block type="primary" htmlType="submit">
             로그인
           </Button>
-          or <a href="signup">회원가입</a>
+          <Button
+            block
+            type="default"
+            style={{ marginTop: "10px" }}
+            onClick={() => {
+              navigate("/signup");
+            }}
+          >
+            회원가입
+          </Button>
         </Form.Item>
       </Form>
     </>
   );
 };
 
-export default Login;
+export default Signin;
