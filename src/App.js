@@ -32,7 +32,7 @@ const Demo = () => {
               element={<PrivateRoute component={<Home />} />}
             />
             <Route
-              path="/menu"
+              path="/farms"
               element={<PrivateRoute component={<Farms />} />}
             />
             <Route

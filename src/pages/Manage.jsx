@@ -36,6 +36,7 @@ const Manage = () => {
   const { farmId } = useParams(); // URL에서 farmId 가져오기
 
   const [joined, setJoined] = useState(false);
+  const [farmName, setFarmName] = useState();
 
   const [currentStatus, setCurrentStatus] = useState([]);
   const [standardEnvironment, setStandardEnvironment] = useState([]);
@@ -66,6 +67,7 @@ const Manage = () => {
           setJoined(
             data.message.users.includes(localStorage.getItem("userUUID"))
           );
+          setFarmName(data.message.name);
         })
         .catch((err) => console.error("Fetching error:", err));
     };
@@ -119,11 +121,20 @@ const Manage = () => {
 
   return (
     <>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <BackButton label={"내 농장"} url="/" />
         {joined ? undefined : <Button onClick={joinFarm}>가입하기</Button>}
       </div>
-      <ContentHeader title={"재배 환경"} />
+      <ContentHeader
+        title={farmName}
+        sub={"현재 농장의 상태를\n확인해 보세요"}
+      />
       <Row
         style={{
           marginBottom: "30px",

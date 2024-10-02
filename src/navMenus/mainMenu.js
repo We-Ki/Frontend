@@ -12,7 +12,7 @@ const menus = [
   },
   {
     name: "다른 농장",
-    value: "menu",
+    value: "farms",
     icon: SearchIcon,
   },
   {
