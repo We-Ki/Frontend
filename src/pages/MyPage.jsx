@@ -14,7 +14,7 @@ const point = [
 ];
 
 const MyPage = () => {
-  const [myInfo, setMyInfo] = useState([]);
+  const [myInfo, setMyInfo] = useState({});
 
   const { setIsLogin } = useContext(IsLoginContext);
 
