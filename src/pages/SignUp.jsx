@@ -1,38 +1,44 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Row, Col, Divider, Input, Button } from "antd";
-import { IdcardOutlined } from "@ant-design/icons";
-import { gray } from "@ant-design/colors";
+import { Form, Select, Input, Button } from "antd";
+import { MailOutlined, UserOutlined, LockOutlined } from "@ant-design/icons";
 import ContentHeader from "../components/ContentHeader";
 import BackButton from "../components/BackButton";
 
-const mydata = [
-  "사용자명",
-  "비밀번호",
-  "비밀번호 확인",
-  "이메일",
-  "이름",
-  "사용자 구분",
-];
+const { Option } = Select;
 
-const MyForm = () => (
-  <>
-    {mydata.map((item, index) => (
-      <Input
-        key={index}
-        placeholder={item}
-        style={{
-          fontWeight: "bold",
-          color: gray[7],
-          fontSize: "10px",
-          marginBottom: "6px", // 위아래 간격 설정
-        }}
-      />
-    ))}
-  </>
-);
 const SignUp = () => {
+  const [form] = Form.useForm();
   const navigate = useNavigate();
+
+  const handleSignUp = async (values) => {
+    await new Promise((r) => setTimeout(r, 1000));
+    console.log(process.env.REACT_APP_API_URL);
+    return fetch(`http://${process.env.REACT_APP_API_URL}/auth/signup/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((body) => {
+        if (body.success) {
+          navigate("/signin");
+        } else {
+          const errors = Object.keys(body.message).map((key) => {
+            return {
+              name: key,
+              errors: [body.message[key].message],
+            };
+          });
+          console.log(errors);
+          form.setFields(errors);
+        }
+      });
+  };
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -47,41 +53,97 @@ const SignUp = () => {
         title={"회원가입"}
         sub={"계정을 생성하고 \n 농장을 개설하거나 참여하세요"}
       />
-      <Row style={{ marginBottom: "20px", textAlign: "left" }}>
-        <Col span={4}>{/* <Avatar size={64} icon={<UserOutlined />} /> */}</Col>
-        <Col span={4}>
-          <br />
-          {/* <b>김위키</b> */}
-        </Col>
-        <Col span={16}></Col>
-      </Row>
+      <Form form={form} name="login" size="large" onFinish={handleSignUp}>
+        <Form.Item
+          name="name"
+          rules={[
+            {
+              required: true,
+              message: "성명을 입력해 주세요",
+            },
+          ]}
+        >
+          <Input prefix={<UserOutlined />} type="text" placeholder="성명" />
+        </Form.Item>
 
-      {/* 사용자 정보 입력 폼 */}
-      <Divider
-        orientation="left"
-        style={{ marginBottom: "0px", textAlign: "left", color: gray[7] }}
-      >
-        <h5>
-          <IdcardOutlined style={{ marginRight: "5px" }} />내 정보 입력
-        </h5>
-      </Divider>
+        <Form.Item
+          name="username"
+          rules={[
+            {
+              required: true,
+              message: "사용자명을 입력해주세요",
+            },
+          ]}
+        >
+          <Input prefix={<UserOutlined />} placeholder="사용자명" />
+        </Form.Item>
 
-      {/* 사용자 입력 필드 렌더링 */}
-      <MyForm />
+        <Form.Item
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: "비밀번호를 입력해주세요",
+            },
+          ]}
+        >
+          <Input.Password prefix={<LockOutlined />} placeholder="비밀번호" />
+        </Form.Item>
 
-      <div style={{ marginTop: "30px" }}></div>
+        <Form.Item
+          name="passwordConfirmation"
+          rules={[
+            {
+              required: true,
+              message: "비밀번호를 한 번 더 입력해주세요",
+            },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue("password") === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(
+                  new Error("비밀번호가 일치하지 않습니다")
+                );
+              },
+            }),
+          ]}
+        >
+          <Input.Password
+            prefix={<LockOutlined />}
+            placeholder="비밀번호 확인"
+          />
+        </Form.Item>
 
-      {/* 회원가입 버튼 */}
-      <Button
-        style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <b>회원가입</b>
-      </Button>
+        <Form.Item
+          name="email"
+          rules={[
+            {
+              required: true,
+              message: "이메일을 입력해 주세요",
+            },
+          ]}
+        >
+          <Input prefix={<MailOutlined />} type="email" placeholder="이메일" />
+        </Form.Item>
+
+        <Form.Item name="userGroup">
+          <Select
+            defaultValue="user"
+            prefix={<MailOutlined />}
+            placeholder="사용자 구분"
+          >
+            <Option value="user">사용자</Option>
+            <Option value="farmer">농장주</Option>
+          </Select>
+        </Form.Item>
+
+        <Form.Item>
+          <Button block type="primary" htmlType="submit">
+            회원가입
+          </Button>
+        </Form.Item>
+      </Form>
     </>
   );
 };
