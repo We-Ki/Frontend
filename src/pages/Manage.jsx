@@ -3,7 +3,7 @@ import { Row, Col, Card, Table, Button } from "antd";
 import { gray, blue, red } from "@ant-design/colors";
 import { SmileOutlined, MehOutlined, FrownOutlined } from "@ant-design/icons";
 import { RiWaterFlashLine } from "react-icons/ri";
-import { useParams } from "react-router-dom"; // useParams, useNavigate 임포트
+import { useParams } from "react-router-dom"; // useParams 임포트
 import BackButton from "../components/BackButton";
 import ContentHeader from "../components/ContentHeader";
 
@@ -66,42 +66,12 @@ const Manage = () => {
           setJoined(
             data.message.users.includes(localStorage.getItem("userUUID"))
           );
-
-          // // 받아온 데이터를 통해 상태 업데이트
-          // setCurrentAirTemperature(data.airTemperature);
-          // setCurrentSoilTemperature(data.soilTemperature);
-          // setCurrentAirHumidity(data.airHumidity);
-          // setCurrentSoilHumidity(data.soilHumidity);
-          // setLight(data.light);
-          // setLightTime(data.lightTime);
-
-          // const currentStatusData = [
-          //   {
-          //     key: "1",
-          //     column1: "대기 온도",
-          //     column2: `${data.airTemperature}°C`,
-          //   },
-          //   {
-          //     key: "2",
-          //     column1: "토양 온도",
-          //     column2: `${data.soilTemperature}°C`,
-          //   },
-          //   { key: "3", column1: "대기 습도", column2: `${data.airHumidity}%` },
-          //   {
-          //     key: "4",
-          //     column1: "토양 습도",
-          //     column2: `${data.soilHumidity}%`,
-          //   },
-          //   { key: "5", column1: "조명", column2: data.light },
-          //   { key: "6", column1: "조명 지속 시간", column2: data.lightTime },
-          // ];
-          // setCurrentStatus(currentStatusData);
         })
         .catch((err) => console.error("Fetching error:", err));
     };
 
     fetchFarmData(); // 농장 데이터를 불러오기
-  }, [farmId, joined]);
+  }, [farmId, setJoined]);
 
   // 물주기 버튼을 눌렀을 때 5%씩 토양 습도 증가
   const handleWatering = () => {

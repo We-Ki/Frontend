@@ -1,10 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Row, Col, List, Divider, Card, Avatar, Button } from "antd";
-import {
-  UserOutlined,
-  IdcardOutlined,
-  DollarOutlined,
-} from "@ant-design/icons";
+import { List, Divider, Card, Avatar, Button } from "antd";
+import { UserOutlined, DollarOutlined } from "@ant-design/icons";
 import { gray } from "@ant-design/colors";
 import ContentHeader from "../components/ContentHeader";
 import { IsLoginContext } from "../contexts/IsLoginContext";
@@ -16,8 +12,6 @@ const point = [
   "물주기 - 4번 구역 물주기. 토양 습도 24%에서 27%로 상승!",
   "물주기 - 5번 구역 물주기. 토양 습도 24%에서 27%로 상승!",
 ];
-
-const mydata = ["기본 정보", "주소"];
 
 const MyPage = () => {
   const [myInfo, setMyInfo] = useState([]);
@@ -49,70 +43,47 @@ const MyPage = () => {
   }, []);
   return (
     <>
-      <ContentHeader title={"마이"} sub={"포인트를 모으고\n농작물을 키우자!"} />
+      <ContentHeader title={"마이"} sub={"농작물을 키우고\n포인트를 모으자!"} />
       <div
         style={{
-          marginBottom: "20px",
           width: "100%",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
         }}
       >
-        <div>
+        <div style={{ display: "flex", alignItems: "center" }}>
           <Avatar
             size={64}
             icon={<UserOutlined />}
             style={{ marginRight: "20px" }}
           />
-          <b>{myInfo.name}</b>
+          <div style={{ display: "inline-block" }}>
+            <b>
+              <span style={{ margin: "0", fontSize: "2em" }}>
+                {myInfo.name}
+              </span>
+              <br />
+              <span style={{ color: gray[5] }}>
+                {myInfo.userGroup === "user" ? "사용자" : "농장주"}
+              </span>
+            </b>
+          </div>
         </div>
         <Button
           onClick={() => {
             localStorage.removeItem("token");
+            localStorage.removeItem("userUUID");
             setIsLogin(false);
           }}
         >
           로그아웃
         </Button>
       </div>
-      <Row gutter={10}>
-        <Col span={12}>
-          <Card style={cardStyle}>
-            <b>회원구분</b>
-          </Card>
-        </Col>
-        <Col span={12}>
-          <Card style={cardStyle}>
-            <b>{myInfo.userGroup}</b>
-          </Card>
-        </Col>
-      </Row>
-      <Divider
-        orientation="left"
-        style={{ marginBottom: "0px", textAlign: "left", color: gray[7] }}
-      >
-        <h5>
-          <IdcardOutlined style={{ marginRight: "5px" }} />내 정보
-        </h5>
-      </Divider>
-      <List
-        style={{ backgroundColor: "white", border: "none" }}
-        bordered
-        dataSource={mydata}
-        renderItem={(item) => (
-          <List.Item
-            style={{ fontWeight: "bold", color: gray[7], fontSize: "10px" }}
-          >
-            {item}
-          </List.Item>
-        )}
-      />
-      <div style={{ marginTop: "30px" }}></div>
-      <Card style={bigCardStyle}>
-        <b>내 포인트</b>
+      <Card style={{ ...bigCardStyle, marginTop: "30px", fontSize: "1.25em" }}>
+        내 포인트
         <br />
-        <h2>{myInfo.point}포인트</h2>
+        <b>{myInfo.point} 포인트</b>
       </Card>
       <Divider
         orientation="left"
@@ -137,16 +108,6 @@ const MyPage = () => {
       />
     </>
   );
-};
-
-const cardStyle = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "left",
-  height: "50px", // 카드 높이를 원하는 크기로 설정
-  textAlign: "left",
-  color: gray[7],
-  fontSize: "10px",
 };
 
 const bigCardStyle = {
