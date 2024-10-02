@@ -29,6 +29,18 @@ const Signin = () => {
           localStorage.setItem("token", body.message.token);
           console.log("login Success");
           setIsLogin(true);
+        } else {
+          const errors = [
+            {
+              name: "username",
+              errors: [""],
+            },
+            {
+              name: "password",
+              errors: [body.message],
+            },
+          ];
+          form.setFields(errors);
         }
       });
   };
