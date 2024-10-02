@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 import MyPage from "./pages/MyPage";
 import Analytics from "./pages/Analytics";
 import Manage from "./pages/Manage";
-import Menu from "./pages/Menu";
+import Farms from "./pages/Farms";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import "./App.css";
@@ -33,7 +33,7 @@ const Demo = () => {
             />
             <Route
               path="/menu"
-              element={<PrivateRoute component={<Menu />} />}
+              element={<PrivateRoute component={<Farms />} />}
             />
             <Route
               path="/mypage"

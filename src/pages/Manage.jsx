@@ -34,6 +34,9 @@ const StandardEnvironmentCard = ({ data }) => (
 
 const Manage = () => {
   const { farmId } = useParams(); // URL에서 farmId 가져오기
+
+  const [joined, setJoined] = useState(false);
+
   const [currentStatus, setCurrentStatus] = useState([]);
   const [standardEnvironment, setStandardEnvironment] = useState([]);
   const [currentAirTemperature, setCurrentAirTemperature] = useState(20); // 대기 온도
@@ -45,7 +48,7 @@ const Manage = () => {
 
   useEffect(() => {
     const fetchFarmData = () => {
-      fetch(`http://${process.env.REACT_APP_API_URL}/farm/${farmId}`, {
+      fetch(`http://${process.env.REACT_APP_API_URL}/farms/${farmId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -59,45 +62,70 @@ const Manage = () => {
           return res.json();
         })
         .then((data) => {
-          // 받아온 데이터를 통해 상태 업데이트
-          setCurrentAirTemperature(data.airTemperature);
-          setCurrentSoilTemperature(data.soilTemperature);
-          setCurrentAirHumidity(data.airHumidity);
-          setCurrentSoilHumidity(data.soilHumidity);
-          setLight(data.light);
-          setLightTime(data.lightTime);
+          console.log(localStorage.getItem("userUUID"));
+          setJoined(
+            data.message.users.includes(localStorage.getItem("userUUID"))
+          );
 
-          const currentStatusData = [
-            {
-              key: "1",
-              column1: "대기 온도",
-              column2: `${data.airTemperature}°C`,
-            },
-            {
-              key: "2",
-              column1: "토양 온도",
-              column2: `${data.soilTemperature}°C`,
-            },
-            { key: "3", column1: "대기 습도", column2: `${data.airHumidity}%` },
-            {
-              key: "4",
-              column1: "토양 습도",
-              column2: `${data.soilHumidity}%`,
-            },
-            { key: "5", column1: "조명", column2: data.light },
-            { key: "6", column1: "조명 지속 시간", column2: data.lightTime },
-          ];
-          setCurrentStatus(currentStatusData);
+          // // 받아온 데이터를 통해 상태 업데이트
+          // setCurrentAirTemperature(data.airTemperature);
+          // setCurrentSoilTemperature(data.soilTemperature);
+          // setCurrentAirHumidity(data.airHumidity);
+          // setCurrentSoilHumidity(data.soilHumidity);
+          // setLight(data.light);
+          // setLightTime(data.lightTime);
+
+          // const currentStatusData = [
+          //   {
+          //     key: "1",
+          //     column1: "대기 온도",
+          //     column2: `${data.airTemperature}°C`,
+          //   },
+          //   {
+          //     key: "2",
+          //     column1: "토양 온도",
+          //     column2: `${data.soilTemperature}°C`,
+          //   },
+          //   { key: "3", column1: "대기 습도", column2: `${data.airHumidity}%` },
+          //   {
+          //     key: "4",
+          //     column1: "토양 습도",
+          //     column2: `${data.soilHumidity}%`,
+          //   },
+          //   { key: "5", column1: "조명", column2: data.light },
+          //   { key: "6", column1: "조명 지속 시간", column2: data.lightTime },
+          // ];
+          // setCurrentStatus(currentStatusData);
         })
         .catch((err) => console.error("Fetching error:", err));
     };
 
     fetchFarmData(); // 농장 데이터를 불러오기
-  }, [farmId]);
+  }, [farmId, joined]);
 
   // 물주기 버튼을 눌렀을 때 5%씩 토양 습도 증가
   const handleWatering = () => {
     setCurrentSoilHumidity((prevHumidity) => Math.min(prevHumidity + 5, 100)); // 최대 100%까지 증가
+  };
+
+  const joinFarm = () => {
+    fetch(`http://${process.env.REACT_APP_API_URL}/farms/${farmId}/join`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setJoined(data.success);
+      })
+      .catch((err) => console.error("Fetching error:", err));
   };
 
   // 토양 습도에 따른 상태 결정
@@ -121,7 +149,10 @@ const Manage = () => {
 
   return (
     <>
-      <BackButton label={"내 농장"} url="/" />
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <BackButton label={"내 농장"} url="/" />
+        {joined ? undefined : <Button onClick={joinFarm}>가입하기</Button>}
+      </div>
       <ContentHeader title={"재배 환경"} />
       <Row
         style={{

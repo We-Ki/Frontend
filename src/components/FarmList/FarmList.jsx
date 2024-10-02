@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import FarmItem from "./FarmItem";
 import "./FarmList.css";
 
-const FarmList = () => {
+const FarmList = ({ url }) => {
   const [farms, setFarms] = useState([]);
 
   useEffect(() => {
     const fetchFarms = () => {
-      fetch(`http://${process.env.REACT_APP_API_URL}/farms/`, {
+      fetch(url, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -27,14 +27,14 @@ const FarmList = () => {
     };
 
     fetchFarms();
-  }, []);
+  });
 
   return (
     <div className="FarmList">
       {farms.map((data) => (
         <FarmItem
           key={data._id}
-          farmId={data._id} // 각 농장의 고유 ID를 farmId로 전달
+          farmId={data._id}
           title={data.name}
           description={"채소농장"}
         />

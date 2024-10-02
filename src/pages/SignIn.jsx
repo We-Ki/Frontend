@@ -13,7 +13,6 @@ const Signin = () => {
 
   const handleLogin = async (values) => {
     await new Promise((r) => setTimeout(r, 1000));
-    console.log(process.env.REACT_APP_API_URL);
     return fetch(`http://${process.env.REACT_APP_API_URL}/auth/signin/`, {
       method: "POST",
       headers: {
@@ -27,6 +26,7 @@ const Signin = () => {
       .then((body) => {
         if (body.success) {
           localStorage.setItem("token", body.message.token);
+          localStorage.setItem("userUUID", body.message.userId);
           console.log("login Success");
           setIsLogin(true);
         } else {
