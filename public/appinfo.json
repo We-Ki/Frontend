@@ -1,0 +1,17 @@
+{
+  "id": "com.weki",
+  "version": "1.0.0",
+  "vendor": "We-Ki",
+  "type": "web",
+  "main": "index.html",
+  "title": "We-Ki",
+  "icon": "icon.png",
+  "requiredPermissions": [
+    "time.query",
+    "activity.operation",
+    "notification.operation",
+    "wifi.management",
+    "wifi.query",
+    "com.weki.service.group"
+  ]
+}
