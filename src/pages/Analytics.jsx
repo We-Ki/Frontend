@@ -5,6 +5,7 @@ import { gray } from "@ant-design/colors";
 import ContentHeader from "../components/ContentHeader";
 import BackButton from "../components/BackButton";
 import { useParams } from "react-router-dom";
+import JoinButton from "../components/JoinButton";
 
 const data = ["1번 구역", "2번 구역", "3번 구역", "4번 구역", "5번 구역"];
 
@@ -41,26 +42,6 @@ const Analytics = () => {
     fetchFarmData(); // 농장 데이터를 불러오기
   }, [farmId, setJoined]);
 
-  const joinFarm = () => {
-    fetch(`http://${process.env.REACT_APP_API_URL}/farms/${farmId}/join`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setJoined(data.success);
-      })
-      .catch((err) => console.error("Fetching error:", err));
-  };
-
   return (
     <>
       <div
@@ -71,7 +52,7 @@ const Analytics = () => {
         }}
       >
         <BackButton label={"내 농장"} url="/" />
-        {joined ? undefined : <Button onClick={joinFarm}>가입하기</Button>}
+        <JoinButton farmId={farmId} joined={joined} setJoined={setJoined} />
       </div>
       <ContentHeader
         title={farmName}

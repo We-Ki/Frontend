@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Button } from "antd";
+import { Row, Col } from "antd";
 import { gray, blue, red, green } from "@ant-design/colors";
 import { SmileOutlined, MehOutlined, FrownOutlined } from "@ant-design/icons";
-import { RiWaterFlashLine } from "react-icons/ri";
 import { useParams, useNavigate } from "react-router-dom"; // useNavigate 추가
 import BackButton from "../components/BackButton";
 import ContentHeader from "../components/ContentHeader";
 import CardWithTable from "../components/CardWithTable";
 
-import styles from "./Manage.module.css";
+import JoinButton from "../components/JoinButton";
+import WaterButton from "../components/WaterButton";
 
 const columns = [
   {
@@ -51,7 +51,7 @@ const Manage = () => {
         .then((res) => {
           if (res.status === 404) {
             // 스마트팜 ID가 유효하지 않으면 NotFound로 리다이렉트
-            navigate("/notfound");
+            navigate("/");
           }
           if (!res.ok) {
             throw new Error("Network response was not ok");
@@ -59,65 +59,19 @@ const Manage = () => {
           return res.json();
         })
         .then((data) => {
-          setJoined(data.message.users.includes(localStorage.getItem("userUUID")));
+          setJoined(
+            data.message.users.includes(localStorage.getItem("userUUID"))
+          );
           setFarmName(data.message.name);
         })
         .catch((err) => {
           console.error("Fetching error:", err);
-          navigate("/notfound"); // 오류 발생 시에도 홈으로 이동
+          navigate("/"); // 오류 발생 시에도 홈으로 이동
         });
     };
 
     fetchFarmData(); // 농장 데이터를 불러오기
-  }, [farmId, setJoined]);
-
-  // 물주기 버튼을 눌렀을 때 5%씩 토양 습도 증가 및 서버에 신호 전송
-  const handleWatering = () => {
-    // 서버로 POST 요청 전송
-    fetch(`http://${process.env.REACT_APP_API_URL}/farms/${farmId}/water`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify({
-        action: "water", // 물주기 동작을 나타내는 필드
-        humidity: currentSoilHumidity, // 현재 토양 습도
-      }),
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Failed to send water request");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        console.log("Watering successful", data);
-        // 성공적으로 전송되면 토양 습도를 5% 증가시킴
-        setCurrentSoilHumidity((prevHumidity) => Math.min(prevHumidity + 5, 100));
-      })
-      .catch((err) => console.error("Error watering:", err));
-  };
-
-  const joinFarm = () => {
-    fetch(`http://${process.env.REACT_APP_API_URL}/farms/${farmId}/join`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setJoined(data.success);
-      })
-      .catch((err) => console.error("Fetching error:", err));
-  };
+  }, [farmId, setJoined, navigate]);
 
   // 토양 습도에 따른 상태 결정
   let iconColorConfig = { smile: gray[2], meh: gray[2], frown: gray[2] };
@@ -148,9 +102,12 @@ const Manage = () => {
         }}
       >
         <BackButton label={"내 농장"} url="/" />
-        {joined ? undefined : <Button onClick={joinFarm}>가입하기</Button>}
+        <JoinButton farmId={farmId} joined={joined} setJoined={setJoined} />
       </div>
-      <ContentHeader title={farmName} sub={"현재 농장의 상태를\n확인해 보세요"} />
+      <ContentHeader
+        title={farmName}
+        sub={"현재 농장의 상태를\n확인해 보세요"}
+      />
       <Row
         style={{
           marginBottom: "30px",
@@ -162,13 +119,19 @@ const Manage = () => {
       >
         <Col span={3}></Col>
         <Col span={6}>
-          <SmileOutlined style={{ fontSize: "90px", color: iconColorConfig.smile }} />
+          <SmileOutlined
+            style={{ fontSize: "90px", color: iconColorConfig.smile }}
+          />
         </Col>
         <Col span={6}>
-          <MehOutlined style={{ fontSize: "90px", color: iconColorConfig.meh }} />
+          <MehOutlined
+            style={{ fontSize: "90px", color: iconColorConfig.meh }}
+          />
         </Col>
         <Col span={6}>
-          <FrownOutlined style={{ fontSize: "90px", color: iconColorConfig.frown }} />
+          <FrownOutlined
+            style={{ fontSize: "90px", color: iconColorConfig.frown }}
+          />
         </Col>
         <Col span={3}></Col>
       </Row>
@@ -182,25 +145,11 @@ const Manage = () => {
         <Col span={6}></Col>
       </Row>
 
-      <Row style={{ marginBottom: "30px", textAlign: "center" }}>
-        <Col span={6}></Col>
-        <Col
-          span={12}
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Button
-            shape="circle"
-            className={styles.CustomLargeButton}
-            onClick={handleWatering}
-            icon={<RiWaterFlashLine style={{ fontSize: "60px", color: blue.primary }} />}
-          ></Button>
-        </Col>
-        <Col span={6}></Col>
-      </Row>
+      <WaterButton
+        setCurrentSoilHumidity={setCurrentSoilHumidity}
+        farmId={farmId}
+        joined={joined}
+      />
 
       {/* 현재 토양 습도 표시 */}
       <Row style={{ marginTop: "30px", textAlign: "center" }}>
@@ -211,10 +160,18 @@ const Manage = () => {
 
       <Row gutter={16}>
         <Col span={12}>
-          <CardWithTable title={"현재 상태"} data={currentStatus} columns={columns} />
+          <CardWithTable
+            title={"현재 상태"}
+            data={currentStatus}
+            columns={columns}
+          />
         </Col>
         <Col span={12}>
-          <CardWithTable title={"표준 환경"} data={currentStatus} columns={columns} />
+          <CardWithTable
+            title={"표준 환경"}
+            data={currentStatus}
+            columns={columns}
+          />
         </Col>
       </Row>
     </>
