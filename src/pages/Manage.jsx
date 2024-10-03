@@ -33,10 +33,7 @@ const Manage = () => {
   const [currentStatus, setCurrentStatus] = useState([]);
   const [standardEnvironment, setStandardEnvironment] = useState([]);
   const [currentAirTemperature, setCurrentAirTemperature] = useState(20); // 대기 온도
-  const [currentSoilTemperature, setCurrentSoilTemperature] = useState(18); // 토양 온도
   const [currentAirHumidity, setCurrentAirHumidity] = useState(60); // 대기 습도
-  const [light, setLight] = useState("3단계"); // 조명 단계
-  const [lightTime, setLightTime] = useState("16시간"); // 조명 지속 시간
   const [currentSoilHumidity, setCurrentSoilHumidity] = useState(15); // 초기 토양 습도
 
   useEffect(() => {
