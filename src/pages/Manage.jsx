@@ -3,7 +3,7 @@ import { Row, Col, Button } from "antd";
 import { gray, blue, red, green } from "@ant-design/colors";
 import { SmileOutlined, MehOutlined, FrownOutlined } from "@ant-design/icons";
 import { RiWaterFlashLine } from "react-icons/ri";
-import { useParams } from "react-router-dom"; // useParams 임포트
+import { useParams, useNavigate } from "react-router-dom"; // useNavigate 추가
 import BackButton from "../components/BackButton";
 import ContentHeader from "../components/ContentHeader";
 import CardWithTable from "../components/CardWithTable";
@@ -25,9 +25,10 @@ const columns = [
 
 const Manage = () => {
   const { farmId } = useParams(); // URL에서 farmId 가져오기
+  const navigate = useNavigate(); // navigate 훅 추가
 
   const [joined, setJoined] = useState(false);
-  const [farmName, setFarmName] = useState();
+  const [farmName, setFarmName] = useState("");
 
   const [currentStatus, setCurrentStatus] = useState([]);
   const [standardEnvironment, setStandardEnvironment] = useState([]);
@@ -48,19 +49,23 @@ const Manage = () => {
         },
       })
         .then((res) => {
+          if (res.status === 404) {
+            // 스마트팜 ID가 유효하지 않으면 NotFound로 리다이렉트
+            navigate("/notfound");
+          }
           if (!res.ok) {
             throw new Error("Network response was not ok");
           }
           return res.json();
         })
         .then((data) => {
-          console.log(localStorage.getItem("userUUID"));
-          setJoined(
-            data.message.users.includes(localStorage.getItem("userUUID"))
-          );
+          setJoined(data.message.users.includes(localStorage.getItem("userUUID")));
           setFarmName(data.message.name);
         })
-        .catch((err) => console.error("Fetching error:", err));
+        .catch((err) => {
+          console.error("Fetching error:", err);
+          navigate("/notfound"); // 오류 발생 시에도 홈으로 이동
+        });
     };
 
     fetchFarmData(); // 농장 데이터를 불러오기
@@ -122,10 +127,7 @@ const Manage = () => {
         <BackButton label={"내 농장"} url="/" />
         {joined ? undefined : <Button onClick={joinFarm}>가입하기</Button>}
       </div>
-      <ContentHeader
-        title={farmName}
-        sub={"현재 농장의 상태를\n확인해 보세요"}
-      />
+      <ContentHeader title={farmName} sub={"현재 농장의 상태를\n확인해 보세요"} />
       <Row
         style={{
           marginBottom: "30px",
@@ -137,19 +139,13 @@ const Manage = () => {
       >
         <Col span={3}></Col>
         <Col span={6}>
-          <SmileOutlined
-            style={{ fontSize: "90px", color: iconColorConfig.smile }}
-          />
+          <SmileOutlined style={{ fontSize: "90px", color: iconColorConfig.smile }} />
         </Col>
         <Col span={6}>
-          <MehOutlined
-            style={{ fontSize: "90px", color: iconColorConfig.meh }}
-          />
+          <MehOutlined style={{ fontSize: "90px", color: iconColorConfig.meh }} />
         </Col>
         <Col span={6}>
-          <FrownOutlined
-            style={{ fontSize: "90px", color: iconColorConfig.frown }}
-          />
+          <FrownOutlined style={{ fontSize: "90px", color: iconColorConfig.frown }} />
         </Col>
         <Col span={3}></Col>
       </Row>
@@ -177,11 +173,7 @@ const Manage = () => {
             shape="circle"
             className={styles.CustomLargeButton}
             onClick={handleWatering}
-            icon={
-              <RiWaterFlashLine
-                style={{ fontSize: "60px", color: blue.primary }}
-              />
-            }
+            icon={<RiWaterFlashLine style={{ fontSize: "60px", color: blue.primary }} />}
           ></Button>
         </Col>
         <Col span={6}></Col>
@@ -196,18 +188,10 @@ const Manage = () => {
 
       <Row gutter={16}>
         <Col span={12}>
-          <CardWithTable
-            title={"현재 상태"}
-            data={currentStatus}
-            columns={columns}
-          />
+          <CardWithTable title={"현재 상태"} data={currentStatus} columns={columns} />
         </Col>
         <Col span={12}>
-          <CardWithTable
-            title={"표준 환경"}
-            data={currentStatus}
-            columns={columns}
-          />
+          <CardWithTable title={"표준 환경"} data={currentStatus} columns={columns} />
         </Col>
       </Row>
     </>
