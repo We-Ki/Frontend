@@ -30,7 +30,9 @@ const WaterButton = ({ farmId, joined, setCurrentSoilHumidity }) => {
             Math.min(prevHumidity + 5, 100)
           );
 
-          // TODO: 물주기 명령 전송 성공시 Toast 뜨우기
+          // TODO: 물주기 명령 전송 성공 시 Toast 띄우기
+        } else {
+          // TODO: 물주기 명령 전송 실패 시 Toast 띄우기
         }
       })
       .catch((err) => console.error("Error watering:", err));
