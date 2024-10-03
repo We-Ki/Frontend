@@ -71,9 +71,32 @@ const Manage = () => {
     fetchFarmData(); // 농장 데이터를 불러오기
   }, [farmId, setJoined]);
 
-  // 물주기 버튼을 눌렀을 때 5%씩 토양 습도 증가
+  // 물주기 버튼을 눌렀을 때 5%씩 토양 습도 증가 및 서버에 신호 전송
   const handleWatering = () => {
-    setCurrentSoilHumidity((prevHumidity) => Math.min(prevHumidity + 5, 100)); // 최대 100%까지 증가
+    // 서버로 POST 요청 전송
+    fetch(`http://${process.env.REACT_APP_API_URL}/farms/${farmId}/water`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({
+        action: "water", // 물주기 동작을 나타내는 필드
+        humidity: currentSoilHumidity, // 현재 토양 습도
+      }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to send water request");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Watering successful", data);
+        // 성공적으로 전송되면 토양 습도를 5% 증가시킴
+        setCurrentSoilHumidity((prevHumidity) => Math.min(prevHumidity + 5, 100));
+      })
+      .catch((err) => console.error("Error watering:", err));
   };
 
   const joinFarm = () => {
