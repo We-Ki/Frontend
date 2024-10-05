@@ -11,9 +11,8 @@ const Signin = () => {
 
   const { setIsLogin } = useContext(IsLoginContext);
 
-  const handleLogin = async (values) => {
-    await new Promise((r) => setTimeout(r, 1000));
-    return fetch(`http://${process.env.REACT_APP_API_URL}/auth/signin/`, {
+  const handleLogin = (values) => {
+    fetch(`http://${process.env.REACT_APP_API_URL}/auth/signin/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
