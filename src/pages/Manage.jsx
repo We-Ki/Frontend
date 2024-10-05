@@ -102,19 +102,6 @@ const Manage = () => {
         title={farmName}
         sub={"현재 농장의 상태를\n확인해 보세요"}
       />
-      
-      {joined && ( // 농장에 가입된 경우에만 Wi-Fi 추가 버튼 표시
-        <div style={{ position: "absolute", right: "20px", top: "20px" }}>
-          <Button
-            type="primary"
-            onClick={() => {
-              navigate(`/wifi`);
-            }}
-          >
-            와이파이 추가
-          </Button>
-        </div>
-      )}
 
       <Row
         style={{
@@ -180,6 +167,22 @@ const Manage = () => {
             columns={columns}
           />
         </Col>
+      </Row>
+
+      <Row>
+        {joined && (
+          <Col span={24} style={{ textAlign: "right", marginTop: "20px" }}>
+            {/* 우측에 배치하고 위에 마진 추가 */}
+            <Button
+              type="primary"
+              onClick={() => {
+                navigate(`/wifi`);
+              }}
+            >
+              와이파이 추가
+            </Button>
+          </Col>
+        )}
       </Row>
     </>
   );
