@@ -1,6 +1,7 @@
 import {
   HomeOutlined as HomeIcon,
   LineChartOutlined as AnalyticsIcon,
+  SettingOutlined as SettingIcon,
 } from "@ant-design/icons";
 
 const menus = [
@@ -13,6 +14,11 @@ const menus = [
     name: "분석",
     value: "analytics",
     icon: AnalyticsIcon,
+  },
+  {
+    name: "설정",
+    value: "setting",
+    icon: SettingIcon,
   },
 ];
 

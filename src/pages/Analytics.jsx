@@ -33,9 +33,9 @@ const Analytics = () => {
           return res.json();
         })
         .then((data) => {
-          console.log(localStorage.getItem("userUUID"));
           setJoined(
-            data.message.users.includes(localStorage.getItem("userUUID"))
+            data.message.users.includes(localStorage.getItem("userUUID")) ||
+              data.message.farmer._id === localStorage.getItem("userUUID")
           );
           setFarmName(data.message.name);
         })

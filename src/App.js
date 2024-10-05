@@ -20,6 +20,7 @@ import farmMenu from "./navMenus/farmMenu";
 
 import FooterLayout from "./layouts/FooterLayout";
 import DefaultLayout from "./layouts/DefaultLayout";
+import FarmSetting from "./pages/FarmSetting";
 
 const Demo = () => {
   return (
@@ -51,15 +52,17 @@ const Demo = () => {
               path="/analytics/:farmId"
               element={<PrivateRoute component={<Analytics />} />}
             />
+            <Route
+              path="/setting/:farmId"
+              element={<PrivateRoute component={<FarmSetting />} />}
+            />
           </Route>
-          
 
           <Route element={<DefaultLayout />}>
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/wifi" element={<WIFI />} />
-            <Route path="/farmadd" element={<FarmAdd />} /> 
-
+            <Route path="/farmadd" element={<FarmAdd />} />
           </Route>
 
           <Route path="*" element={<PrivateRoute component={<NotFound />} />} />

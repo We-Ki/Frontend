@@ -55,7 +55,8 @@ const Manage = () => {
         })
         .then((data) => {
           setJoined(
-            data.message.users.includes(localStorage.getItem("userUUID"))
+            data.message.users.includes(localStorage.getItem("userUUID")) ||
+              data.message.farmer._id === localStorage.getItem("userUUID")
           );
           setFarmName(data.message.name);
         })
@@ -167,22 +168,6 @@ const Manage = () => {
             columns={columns}
           />
         </Col>
-      </Row>
-
-      <Row>
-        {joined && (
-          <Col span={24} style={{ textAlign: "right", marginTop: "20px" }}>
-            {/* 우측에 배치하고 위에 마진 추가 */}
-            <Button
-              type="primary"
-              onClick={() => {
-                navigate(`/wifi`);
-              }}
-            >
-              와이파이 추가
-            </Button>
-          </Col>
-        )}
       </Row>
     </>
   );
