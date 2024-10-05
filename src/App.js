@@ -9,6 +9,7 @@ import Farms from "./pages/Farms";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
+import WIFI from "./pages/WIFI";
 
 import { IsLoginProvider } from "./contexts/IsLoginContext";
 import PrivateRoute from "./routes/PrivateRoute";
@@ -50,10 +51,13 @@ const Demo = () => {
               element={<PrivateRoute component={<Analytics />} />}
             />
           </Route>
+          
 
           <Route element={<DefaultLayout />}>
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
+            <Route path="/wifi" element={<WIFI />} />
+
           </Route>
 
           <Route path="*" element={<PrivateRoute component={<NotFound />} />} />

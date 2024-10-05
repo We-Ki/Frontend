@@ -4,6 +4,8 @@ import { UserOutlined, DollarOutlined } from "@ant-design/icons";
 import { gray } from "@ant-design/colors";
 import ContentHeader from "../components/ContentHeader";
 import { IsLoginContext } from "../contexts/IsLoginContext";
+import { useNavigate } from "react-router-dom";
+
 
 const point = [
   "물주기 - 1번 구역 물주기. 토양 습도 24%에서 27%로 상승!",
@@ -16,6 +18,7 @@ const point = [
 const MyPage = () => {
   const [myInfo, setMyInfo] = useState({});
 
+  const navigate = useNavigate();
   const { setIsLogin } = useContext(IsLoginContext);
 
   useEffect(() => {
@@ -78,6 +81,15 @@ const MyPage = () => {
           }}
         >
           로그아웃
+        </Button>
+
+
+        <Button
+          onClick={() => {
+            navigate("/wifi");
+          }}
+        >
+          와이파이 추가
         </Button>
       </div>
       <Card style={{ ...bigCardStyle, marginTop: "30px", fontSize: "1.25em" }}>
