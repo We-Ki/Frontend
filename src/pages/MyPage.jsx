@@ -83,14 +83,6 @@ const MyPage = () => {
           로그아웃
         </Button>
 
-
-        <Button
-          onClick={() => {
-            navigate("/wifi");
-          }}
-        >
-          와이파이 추가
-        </Button>
       </div>
       <Card style={{ ...bigCardStyle, marginTop: "30px", fontSize: "1.25em" }}>
         내 포인트
