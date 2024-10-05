@@ -1,11 +1,10 @@
 import React from "react";
 import { Button } from "antd";
 import { RiWaterFlashLine } from "react-icons/ri";
-
 import styles from "./WaterButton.module.css";
 import { blue } from "@ant-design/colors";
 
-const WaterButton = ({ farmId, joined, setCurrentSoilHumidity }) => {
+const WaterButton = ({ farmId, joined, setCurrentSoilHumidity, addWateringLog }) => {
   // 물주기 버튼을 눌렀을 때 5%씩 토양 습도 증가 및 서버에 신호 전송
   const handleWatering = () => {
     // 서버로 POST 요청 전송
@@ -26,17 +25,22 @@ const WaterButton = ({ farmId, joined, setCurrentSoilHumidity }) => {
         console.log(data);
         if (data.success) {
           // 성공적으로 전송되면 토양 습도를 5% 증가시킴
-          setCurrentSoilHumidity((prevHumidity) =>
-            Math.min(prevHumidity + 5, 100)
-          );
+          setCurrentSoilHumidity((prevHumidity) => {
+            const newHumidity = Math.min(prevHumidity + 5, 100);
 
-          // TODO: 물주기 명령 전송 성공 시 Toast 띄우기
+            // 물주기 로그 추가
+            const wateringTime = new Date();
+            addWateringLog(wateringTime);
+
+            return newHumidity;
+          });
         } else {
           // TODO: 물주기 명령 전송 실패 시 Toast 띄우기
         }
       })
       .catch((err) => console.error("Error watering:", err));
   };
+
   if (joined)
     return (
       <Button
