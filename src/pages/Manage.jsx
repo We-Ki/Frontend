@@ -8,19 +8,22 @@ import ContentHeader from "../components/ContentHeader";
 import CardWithTable from "../components/CardWithTable";
 import JoinButton from "../components/JoinButton";
 import WaterButton from "../components/WaterButton";
+import LS2Request from "@enact/webos/LS2Request";
 
 const columns = [
   {
-    title: "변수",
-    dataIndex: "column1",
-    key: "column1",
+    title: "구분",
+    dataIndex: "type",
+    key: "type",
   },
   {
     title: "값",
-    dataIndex: "column2",
-    key: "column2",
+    dataIndex: "value",
+    key: "value",
   },
 ];
+
+const webOSBridge = new LS2Request();
 
 const Manage = () => {
   const { farmId } = useParams();
@@ -29,13 +32,82 @@ const Manage = () => {
   const [joined, setJoined] = useState(false);
   const [farmName, setFarmName] = useState("");
 
-  const [currentStatus, setCurrentStatus] = useState([]);
   const [standardEnvironment, setStandardEnvironment] = useState([]);
   const [currentAirTemperature, setCurrentAirTemperature] = useState(20);
   const [currentAirHumidity, setCurrentAirHumidity] = useState(60);
   const [currentSoilHumidity, setCurrentSoilHumidity] = useState(15);
+  const [currentAirQuality, setCurrentAirQuality] = useState();
+
+  const currentDataset = [
+    { key: 1, type: "온도", value: currentAirTemperature },
+    { key: 2, type: "습도", value: currentAirHumidity },
+    { key: 3, type: "토양수분", value: currentSoilHumidity },
+    { key: 4, type: "공기질", value: currentAirQuality },
+  ];
+
+  const init = () => {
+    return new Promise((resolve, reject) => {
+      let params = { subscribe: true };
+      let lsRequest = {
+        service: "luna://com.weki.service",
+        method: "init",
+        parameters: params,
+        onSuccess: (msg) => {
+          findHandler(msg);
+          resolve();
+          console.log("[init]", msg);
+        },
+        onFailure: (err) => {
+          console.log(err);
+          reject();
+        },
+      };
+      webOSBridge.send(lsRequest);
+    });
+  };
+
+  const findHandler = (res) => {
+    console.log(res);
+    switch (res.topic) {
+      case `${farmId}/humid/soil`:
+        setCurrentSoilHumidity(res.Response);
+        break;
+      case `${farmId}/temp`:
+        setCurrentAirTemperature(res.Response);
+        break;
+      case `${farmId}/airQuality/sensor`:
+        setCurrentAirQuality(res.Response);
+        break;
+      case `${farmId}/humid/air`:
+        setCurrentAirHumidity(res.Response);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const loop = () => {
+    let params = { subscribe: true };
+    let lsRequest = {
+      service: "luna://com.weki.service",
+      method: "loop",
+      parameters: params,
+      onSuccess: (msg) => {
+        console.log(msg);
+        findHandler(msg);
+      },
+      onFailure: (err) => {
+        console.log(err);
+      },
+    };
+    webOSBridge.send(lsRequest);
+  };
 
   useEffect(() => {
+    async function start() {
+      await init();
+      loop();
+    }
     const fetchFarmData = () => {
       fetch(`http://${process.env.REACT_APP_API_URL}/farms/${farmId}`, {
         method: "GET",
@@ -67,7 +139,8 @@ const Manage = () => {
     };
 
     fetchFarmData();
-  }, [farmId, setJoined, navigate]);
+    start();
+  }, [farmId, setJoined, navigate, init, loop]);
 
   let iconColorConfig = { smile: gray[2], meh: gray[2], frown: gray[2] };
   let statusMessage = "";
@@ -141,23 +214,13 @@ const Manage = () => {
         <Col span={6}></Col>
       </Row>
 
-      <WaterButton
-        setCurrentSoilHumidity={setCurrentSoilHumidity}
-        farmId={farmId}
-        joined={joined}
-      />
-
-      <Row style={{ marginTop: "30px", textAlign: "center" }}>
-        <Col span={24}>
-          <h3>현재 토양 습도: {currentSoilHumidity}%</h3>
-        </Col>
-      </Row>
+      <WaterButton farmId={farmId} joined={joined} />
 
       <Row gutter={16}>
         <Col span={12}>
           <CardWithTable
             title={"현재 상태"}
-            data={currentStatus}
+            data={currentDataset}
             columns={columns}
           />
         </Col>
