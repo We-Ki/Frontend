@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col } from "antd";
+import { Row, Col, Button } from "antd";
 import { gray, blue, red, green } from "@ant-design/colors";
 import { SmileOutlined, MehOutlined, FrownOutlined } from "@ant-design/icons";
-import { useParams, useNavigate } from "react-router-dom"; // useNavigate 추가
+import { useParams, useNavigate } from "react-router-dom";
 import BackButton from "../components/BackButton";
 import ContentHeader from "../components/ContentHeader";
 import CardWithTable from "../components/CardWithTable";
-
 import JoinButton from "../components/JoinButton";
 import WaterButton from "../components/WaterButton";
 
@@ -24,17 +23,17 @@ const columns = [
 ];
 
 const Manage = () => {
-  const { farmId } = useParams(); // URL에서 farmId 가져오기
-  const navigate = useNavigate(); // navigate 훅 추가
+  const { farmId } = useParams();
+  const navigate = useNavigate();
 
   const [joined, setJoined] = useState(false);
   const [farmName, setFarmName] = useState("");
 
   const [currentStatus, setCurrentStatus] = useState([]);
   const [standardEnvironment, setStandardEnvironment] = useState([]);
-  const [currentAirTemperature, setCurrentAirTemperature] = useState(20); // 대기 온도
-  const [currentAirHumidity, setCurrentAirHumidity] = useState(60); // 대기 습도
-  const [currentSoilHumidity, setCurrentSoilHumidity] = useState(15); // 초기 토양 습도
+  const [currentAirTemperature, setCurrentAirTemperature] = useState(20);
+  const [currentAirHumidity, setCurrentAirHumidity] = useState(60);
+  const [currentSoilHumidity, setCurrentSoilHumidity] = useState(15);
 
   useEffect(() => {
     const fetchFarmData = () => {
@@ -47,7 +46,6 @@ const Manage = () => {
       })
         .then((res) => {
           if (res.status === 404) {
-            // 스마트팜 ID가 유효하지 않으면 NotFound로 리다이렉트
             navigate("/");
           }
           if (!res.ok) {
@@ -63,14 +61,13 @@ const Manage = () => {
         })
         .catch((err) => {
           console.error("Fetching error:", err);
-          navigate("/"); // 오류 발생 시에도 홈으로 이동
+          navigate("/");
         });
     };
 
-    fetchFarmData(); // 농장 데이터를 불러오기
+    fetchFarmData();
   }, [farmId, setJoined, navigate]);
 
-  // 토양 습도에 따른 상태 결정
   let iconColorConfig = { smile: gray[2], meh: gray[2], frown: gray[2] };
   let statusMessage = "";
   let statusSubMessage = "";
@@ -105,6 +102,20 @@ const Manage = () => {
         title={farmName}
         sub={"현재 농장의 상태를\n확인해 보세요"}
       />
+      
+      {joined && ( // 농장에 가입된 경우에만 Wi-Fi 추가 버튼 표시
+        <div style={{ position: "absolute", right: "20px", top: "20px" }}>
+          <Button
+            type="primary"
+            onClick={() => {
+              navigate(`/wifi`);
+            }}
+          >
+            와이파이 추가
+          </Button>
+        </div>
+      )}
+
       <Row
         style={{
           marginBottom: "30px",
@@ -148,7 +159,6 @@ const Manage = () => {
         joined={joined}
       />
 
-      {/* 현재 토양 습도 표시 */}
       <Row style={{ marginTop: "30px", textAlign: "center" }}>
         <Col span={24}>
           <h3>현재 토양 습도: {currentSoilHumidity}%</h3>
@@ -166,7 +176,7 @@ const Manage = () => {
         <Col span={12}>
           <CardWithTable
             title={"표준 환경"}
-            data={currentStatus}
+            data={standardEnvironment}
             columns={columns}
           />
         </Col>

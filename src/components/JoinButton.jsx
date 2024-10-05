@@ -22,8 +22,9 @@ const JoinButton = ({ joined, setJoined, farmId }) => {
       .catch((err) => console.error("Fetching error:", err));
   };
 
-  if (joined) return undefined;
-  return <Button onClick={joinFarm}>가입하기</Button>;
+  return !joined ? (
+    <Button onClick={joinFarm}>가입하기</Button>
+  ) : null; // 가입된 상태에서는 아무 버튼도 렌더링하지 않음
 };
 
 export default JoinButton;
