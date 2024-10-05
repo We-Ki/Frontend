@@ -6,20 +6,20 @@ import ContentHeader from "../components/ContentHeader";
 import { IsLoginContext } from "../contexts/IsLoginContext";
 import { useNavigate } from "react-router-dom";
 
-
-const point = [
-  "물주기 - 1번 구역 물주기. 토양 습도 24%에서 27%로 상승!",
-  "물주기 - 2번 구역 물주기. 토양 습도 24%에서 27%로 상승!",
-  "물주기 - 3번 구역 물주기. 토양 습도 24%에서 27%로 상승!",
-  "물주기 - 4번 구역 물주기. 토양 습도 24%에서 27%로 상승!",
-  "물주기 - 5번 구역 물주기. 토양 습도 24%에서 27%로 상승!",
-];
-
 const MyPage = () => {
   const [myInfo, setMyInfo] = useState({});
-
+  const [wateringLogs, setWateringLogs] = useState([]); // 물주기 로그 상태 추가
   const navigate = useNavigate();
   const { setIsLogin } = useContext(IsLoginContext);
+
+  // 물주기 로그를 추가하는 함수
+  const addWateringLog = (time) => {
+    const formattedTime = `${time.getMonth() + 1}월 ${time.getDate()}일 ${time.getHours()}시 ${time.getMinutes()}분`;
+
+    const newLog = `포인트 10점 상승! \n시간: ${formattedTime}`;
+    
+    setWateringLogs((prevLogs) => [newLog, ...prevLogs]);
+  };
 
   useEffect(() => {
     const fetchFarms = () => {
@@ -44,6 +44,7 @@ const MyPage = () => {
 
     fetchFarms();
   }, []);
+
   return (
     <>
       <ContentHeader title={"마이"} sub={"농작물을 키우고\n포인트를 모으자!"} />
@@ -63,9 +64,7 @@ const MyPage = () => {
           />
           <div style={{ display: "inline-block" }}>
             <b>
-              <span style={{ margin: "0", fontSize: "2em" }}>
-                {myInfo.name}
-              </span>
+              <span style={{ margin: "0", fontSize: "2em" }}>{myInfo.name}</span>
               <br />
               <span style={{ color: gray[5] }}>
                 {myInfo.userGroup === "user" ? "사용자" : "농장주"}
@@ -82,21 +81,8 @@ const MyPage = () => {
         >
           로그아웃
         </Button>
-
-
-        <Button
-          onClick={() => {
-            navigate("/wifi");
-          }}
-        >
-          와이파이 추가
-        </Button>
       </div>
-      <Card style={{ ...bigCardStyle, marginTop: "30px", fontSize: "1.25em" }}>
-        내 포인트
-        <br />
-        <b>{myInfo.point} 포인트</b>
-      </Card>
+
       <Divider
         orientation="left"
         style={{ marginBottom: "0px", textAlign: "left", color: gray[7] }}
@@ -106,10 +92,12 @@ const MyPage = () => {
           포인트 적립 내역
         </h5>
       </Divider>
+
+      {/* 물주기 로그만 렌더링 */}
       <List
         style={{ backgroundColor: "white", border: "none" }}
         bordered
-        dataSource={point}
+        dataSource={wateringLogs}
         renderItem={(item) => (
           <List.Item
             style={{ fontWeight: "bold", color: gray[7], fontSize: "10px" }}
