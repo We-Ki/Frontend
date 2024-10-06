@@ -70,6 +70,25 @@ const FarmSetting = () => {
       .catch((err) => console.error("Fetching error:", err));
   };
 
+  const deleteFarm = (values) => {
+    fetch(`http://${process.env.REACT_APP_API_URL}/farms/${farmId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => {
+        console.log(values);
+        return res.json();
+      })
+      .then((body) => {
+        if (body.success) {
+          navigate(`/`);
+        }
+      });
+  };
+
   return (
     <>
       <div
@@ -96,10 +115,14 @@ const FarmSetting = () => {
           <Button
             type="primary"
             onClick={() => {
-              navigate(`/add`);
+              navigate(`/adddevice`);
             }}
           >
             기기 추가
+          </Button>
+          <h2>농장 삭제하기</h2>
+          <Button type="primary" onClick={deleteFarm}>
+            농장 삭제
           </Button>
         </>
       ) : undefined}

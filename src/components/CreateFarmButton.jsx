@@ -35,7 +35,7 @@ const CreateFarmButton = () => {
     <Button
       type="primary"
       onClick={() => {
-        navigate("/farmadd");
+        navigate("/addfarm");
       }}
       size="large"
     >

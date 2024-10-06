@@ -9,8 +9,8 @@ import Farms from "./pages/Farms";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
-import WIFI from "./pages/WIFI";
-import FarmAdd from "./pages/FarmAdd";
+import AddDevice from "./pages/AddDevice";
+import AddFarm from "./pages/AddFarm";
 
 import { IsLoginProvider } from "./contexts/IsLoginContext";
 import PrivateRoute from "./routes/PrivateRoute";
@@ -61,8 +61,8 @@ const Demo = () => {
           <Route element={<DefaultLayout />}>
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
-            <Route path="/wifi" element={<WIFI />} />
-            <Route path="/farmadd" element={<FarmAdd />} />
+            <Route path="/addDevice" element={<AddDevice />} />
+            <Route path="/addfarm" element={<AddFarm />} />
           </Route>
 
           <Route path="*" element={<PrivateRoute component={<NotFound />} />} />

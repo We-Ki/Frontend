@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { Input, Button } from "antd";
 import ContentHeader from "../components/ContentHeader";
-import { useNavigate } from "react-router-dom";
 
-const WIFI = () => {
+const AddDevice = () => {
   const [ssid, setSsid] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
   const handleConnect = () => {
     console.log("SSID:", ssid);
@@ -16,7 +14,10 @@ const WIFI = () => {
 
   return (
     <>
-      <ContentHeader title={"와이파이 설정"} sub={"와이파이 정보를 입력해주세요."} />
+      <ContentHeader
+        title={"기기 추가"}
+        sub={"와이파이 정보를 입력해주세요."}
+      />
       <div style={{ margin: "20px" }}>
         <Input
           placeholder="SSID"
@@ -31,19 +32,11 @@ const WIFI = () => {
           style={{ marginBottom: "10px" }}
         />
         <Button type="primary" onClick={handleConnect}>
-          연결
-        </Button>
-        <Button
-          onClick={() => {
-            navigate("/wifi");
-          }}
-          style={{ marginTop: "10px" }}
-        >
-          와이파이 추가
+          기기 추가
         </Button>
       </div>
     </>
   );
 };
 
-export default WIFI;
+export default AddDevice;
