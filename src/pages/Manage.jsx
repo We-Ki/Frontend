@@ -55,10 +55,8 @@ const Manage = () => {
         onSuccess: (msg) => {
           findHandler(msg);
           resolve();
-          console.log("[init]", msg);
         },
         onFailure: (err) => {
-          console.log(err);
           reject();
         },
       };
@@ -67,7 +65,7 @@ const Manage = () => {
   };
 
   const findHandler = (res) => {
-    console.log(res);
+    // console.log(res);
     switch (res.topic) {
       case `${farmId}/humid/soil`:
         setCurrentSoilHumidity(res.Response);
@@ -93,12 +91,9 @@ const Manage = () => {
       method: "loop",
       parameters: params,
       onSuccess: (msg) => {
-        console.log(msg);
         findHandler(msg);
       },
-      onFailure: (err) => {
-        console.log(err);
-      },
+      onFailure: (err) => {},
     };
     webOSBridge.send(lsRequest);
   };

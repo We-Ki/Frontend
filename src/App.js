@@ -10,6 +10,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
 import AddDevice from "./pages/AddDevice";
+import SearchDevice from "./pages/SearchDevice";
 import AddFarm from "./pages/AddFarm";
 
 import { IsLoginProvider } from "./contexts/IsLoginContext";
@@ -61,7 +62,8 @@ const Demo = () => {
           <Route element={<DefaultLayout />}>
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
-            <Route path="/addDevice" element={<AddDevice />} />
+            <Route path="/searchDevice/:farmId" element={<SearchDevice />} />
+            <Route path="/addDevice/:farmId" element={<AddDevice />} />
             <Route path="/addfarm" element={<AddFarm />} />
           </Route>
 

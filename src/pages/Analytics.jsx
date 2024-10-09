@@ -29,7 +29,6 @@ const Analytics = () => {
         onSuccess: (msg) => {
           findHandler(msg);
           resolve();
-          console.log("[init]", msg);
         },
         onFailure: (err) => {
           console.log(err);
@@ -58,12 +57,9 @@ const Analytics = () => {
       method: "loop",
       parameters: params,
       onSuccess: (msg) => {
-        console.log(msg);
         findHandler(msg);
       },
-      onFailure: (err) => {
-        console.log(err);
-      },
+      onFailure: (err) => {},
     };
     webOSBridge.send(lsRequest);
   };

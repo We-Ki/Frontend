@@ -4,6 +4,7 @@ import { RiWaterFlashLine } from "react-icons/ri";
 
 import styles from "./WaterButton.module.css";
 import { blue } from "@ant-design/colors";
+import createToast from "../Luna/createToast";
 
 const WaterButton = ({ farmId, joined }) => {
   // 물주기 버튼을 눌렀을 때 5%씩 토양 습도 증가 및 서버에 신호 전송
@@ -25,9 +26,9 @@ const WaterButton = ({ farmId, joined }) => {
       .then((data) => {
         console.log(data);
         if (data.success) {
-          // TODO: 물주기 명령 전송 성공 시 Toast 띄우기
+          createToast("물주기에 성공하여 10포인트를 획득하였습니다.");
         } else {
-          // TODO: 물주기 명령 전송 실패 시 Toast 띄우기
+          createToast("물주기에 실패하였습니다.");
         }
       })
       .catch((err) => console.error("Error watering:", err));

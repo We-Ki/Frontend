@@ -1,17 +1,9 @@
 import React from "react";
 import FarmList from "../components/FarmList/FarmList";
 import ContentHeader from "../components/ContentHeader";
-import { Button } from "antd"; // Ant Design의 버튼 사용
-import { useNavigate } from "react-router-dom"; // 페이지 이동을 위해 useNavigate 사용
 import CreateFarmButton from "../components/CreateFarmButton";
 
 const Home = () => {
-  const navigate = useNavigate(); // 페이지 이동 함수
-
-  const handleAddFarm = () => {
-    navigate("/farmadd"); // "농장 추가" 버튼 클릭 시 farmadd 경로로 이동
-  };
-
   return (
     <>
       <div

@@ -115,7 +115,7 @@ const FarmSetting = () => {
           <Button
             type="primary"
             onClick={() => {
-              navigate(`/adddevice`);
+              navigate(`/searchdevice/${farmId}`);
             }}
           >
             기기 추가
