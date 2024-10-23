@@ -5,7 +5,6 @@ import { RiWaterFlashLine } from "react-icons/ri";
 import styles from "./WaterButton.module.css";
 import { blue } from "@ant-design/colors";
 import createToast from "../Luna/createToast";
-import speak from "../Luna/speak";
 
 const WaterButton = ({ farmId, joined }) => {
   // 물주기 버튼을 눌렀을 때 5%씩 토양 습도 증가 및 서버에 신호 전송
