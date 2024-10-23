@@ -33,9 +33,9 @@ const Manage = () => {
   const [farmName, setFarmName] = useState("");
 
   const [standardEnvironment, setStandardEnvironment] = useState([]);
-  const [currentAirTemperature, setCurrentAirTemperature] = useState(20);
-  const [currentAirHumidity, setCurrentAirHumidity] = useState(60);
-  const [currentSoilHumidity, setCurrentSoilHumidity] = useState(15);
+  const [currentAirTemperature, setCurrentAirTemperature] = useState();
+  const [currentAirHumidity, setCurrentAirHumidity] = useState();
+  const [currentSoilHumidity, setCurrentSoilHumidity] = useState();
   const [currentAirQuality, setCurrentAirQuality] = useState();
 
   const currentDataset = [
@@ -141,15 +141,15 @@ const Manage = () => {
   let statusMessage = "";
   let statusSubMessage = "";
 
-  if (currentSoilHumidity <= 30) {
+  if (currentSoilHumidity > 650) {
     iconColorConfig.frown = red[4];
     statusMessage = "물이 부족해요.";
     statusSubMessage = "물주기 버튼을 눌러서 물을 주세요.";
-  } else if (currentSoilHumidity > 30 && currentSoilHumidity <= 50) {
+  } else if (currentSoilHumidity > 620 && currentSoilHumidity <= 650) {
     iconColorConfig.meh = blue.primary;
     statusMessage = "보통이에요.";
     statusSubMessage = "토양 수분이 적정 범위에요.";
-  } else if (currentSoilHumidity > 50 && currentSoilHumidity <= 60) {
+  } else if (currentSoilHumidity < 620 && currentSoilHumidity) {
     iconColorConfig.smile = green.primary;
     statusMessage = "완벽해요.";
     statusSubMessage = "토양 습도가 최고의 상태에요.";

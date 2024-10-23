@@ -7,8 +7,20 @@ import BackButton from "../components/BackButton";
 import { useParams } from "react-router-dom";
 import JoinButton from "../components/JoinButton";
 import LS2Request from "@enact/webos/LS2Request";
+import createToast from "../Luna/createToast";
 
-const data = ["1번 구역", "2번 구역", "3번 구역", "4번 구역", "5번 구역"];
+const tomatoData = [
+  "토마토 세균성 반점병",
+  "토마토 초기 마름병",
+  "토마토 늦은 마름병",
+  "토마토 잎곰팡이병",
+  "토마토 세포리움 잎마름병",
+  "토마토 점박이응애",
+  "토마토 표적 반점병",
+  "토마토 황화잎말림 바이러스",
+  "토마토 모자이크 바이러스",
+  "건강한 토마토",
+];
 
 const webOSBridge = new LS2Request();
 
@@ -18,6 +30,7 @@ const Analytics = () => {
   const [joined, setJoined] = useState(false);
   const [farmName, setFarmName] = useState();
   const [camera, setCamera] = useState();
+  const [AI, setAI] = useState(tomatoData[1]);
 
   const init = () => {
     return new Promise((resolve, reject) => {
@@ -44,6 +57,12 @@ const Analytics = () => {
     switch (res.topic) {
       case `${farmId}/camera`:
         setCamera(res.Response);
+        break;
+      case `${farmId}/AI`:
+        setAI(tomatoData[res.Response]);
+        if (res.Response !== 9) {
+          createToast("병해충 감염이 확인되었습니다.");
+        }
         break;
       default:
         break;
@@ -135,19 +154,8 @@ const Analytics = () => {
           <LineChartOutlined style={{ marginRight: "5px" }} />
           데이터 분석 및 보고서
         </h5>
+        {AI}
       </Divider>
-      <List
-        style={{ backgroundColor: "white", border: "none" }}
-        bordered
-        dataSource={data}
-        renderItem={(item) => (
-          <List.Item
-            style={{ fontWeight: "bold", color: gray[7], fontSize: "10px" }}
-          >
-            {item}
-          </List.Item>
-        )}
-      />
     </>
   );
 };

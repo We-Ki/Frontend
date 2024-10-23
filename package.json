@@ -22,8 +22,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "install": "npm run build; ares-package '/Users/jaeuk/Project/embSW/Frontend/build' '/Users/jaeuk/Project/embSW/Test/com.weki.service' -o '/Users/jaeuk/Project/embSW/Frontend/build'; ares-install '/Users/jaeuk/Project/embSW/Frontend/build/com.weki_1.0.0_all.ipk'; ares-inspect com.weki --open;"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
